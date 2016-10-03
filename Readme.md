@@ -11,4 +11,4 @@ The LibPip Development Team is:
 
 # Documentation
 
-* [[[Howto.md]] The libpip HOWTO
+* [The libpip HOWTO](Howto.md)
