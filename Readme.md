@@ -2,7 +2,7 @@
 
 This project delivers a library to embed PIP-related operations.
 
-The source code is covered by CeCILL-A licence.
+The source code is covered by CeCILL-A licence, see `LICENSE`.
 
 The LibPip Development Team is:
 
