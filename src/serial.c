@@ -35,9 +35,9 @@
  * \file serial.c
  * \brief Serial driver for debugging purposes
  */
-#include "serial.h"
+#include "pip/serial.h"
 #include "pip/io.h"
-#include "galileo-support.h"
+#include "pip/galileo-support.h"
 #define PORT 0x3f8 //!< Serial port COM1 number
 
 /**

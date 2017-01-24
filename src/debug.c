@@ -1,4 +1,6 @@
 #include <pip/io.h>
+#include "pip/galileo-support.h"
+
 #define SERIAL_PORT 0x3f8
 
 void putc(char c)
