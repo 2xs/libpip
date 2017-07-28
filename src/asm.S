@@ -39,3 +39,9 @@ CG_HELPER 		dispatchInt,		$0x80, 	5
 
 CG_HELPER 		pip_time,		$0x90, 	0
 CG_HELPER 		resume,			$0x98, 	2
+CG_HELPER		unmapPage,		$0xA0,	2
+
+CG_HELPER       mappedInChild,  $0xA8, 1
+CG_HELPER       deletePartition,$0xB0, 1
+CG_HELPER       collect,        $0xB8, 2
+
