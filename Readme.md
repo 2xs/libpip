@@ -8,6 +8,7 @@ The LibPip Development Team is:
 
 *   Quentin Bergougnoux <quentin.bergougnoux@univ-lille1.fr>
 *   Étienne Helluy Lafont <e.helluy-lafont@etudiant.univ-lille1.fr>
+*   Mahieddine Yaker <mahieddine.yaker@univ-lille1.fr>
 
 # Documentation
 

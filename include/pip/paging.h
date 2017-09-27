@@ -6,9 +6,8 @@
 #define PGSIZE 0x1000
 #define PGMASK (PGSIZE-1)
 
-int initPaging(void* begin, void* end);
-void* allocPage(void);
-void freePage(void* page);
-int mapPageWrapper(void*va_src, void* partition, void*va_dest);
+int Pip_InitPaging(void* begin, void* end);
+void* Pip_AllocPage(void);
+void Pip_FreePage(void* page);
 
 #endif

@@ -1,48 +1,35 @@
-UNAME_S=$(shell uname -s)
-
-# Use /usr/bin packages in Linux, MacPorts in Darwin
-ifeq ($(UNAME_S),Linux)
-CC=gcc
-AR=ar
-AS=gcc
-endif
-ifeq ($(UNAME_S),Darwin)
-CC=/opt/local/bin/i386-elf-gcc
-AR=/opt/local/bin/i386-elf-ar
-AS=/opt/local/bin/i386-elf-gcc
-endif
-ifeq ($(UNAME_S),FreeBSD)
-CC=gcc
-AR=ar
-AS=gcc
-endif
+# Architecture
+ARCH=x86
+VARIANT=default
 
 # Directories
-SRCDIR=src
-INCDIR=include
+SRCDIR=src arch/$(ARCH)/ arch/$(ARCH)/variants/$(VARIANT)/
+INCDIR=include arch/$(ARCH)/include/ arch/$(ARCH)/variants/$(VARIANT)/include/
 
 # Generate source and object list
-SOURCES=$(wildcard $(SRCDIR)/*.c)
+SOURCES=$(foreach dir, ${SRCDIR}, $(wildcard $(dir)/*.c))
 OBJ=$(SOURCES:.c=.o)
-ASOURCES=$(wildcard $(SRCDIR)/*.S)
+ASOURCES=$(foreach dir, ${SRCDIR}, $(wildcard $(dir)/*.S))
 AOBJ=$(ASOURCES:.S=.o)
-
-# C compiler flags
-CFLAGS=-c -ffreestanding -nostdlib -Wall -Werror -Wextra -fno-builtin -Wno-unused-parameter -Wno-unused-variable -m32 -O2 -fno-caller-saves
-CFLAGS+=-I$(INCDIR)
-
-ASFLAGS=-m32 -c -I. -I./include -fomit-frame-pointer --freestanding -nostdlib -fno-stack-protector
-
-# Archiver flags
-ARFLAGS=rcs
 
 # Lib directory and output file
 LIBDIR=lib
 LIB=$(LIBDIR)/libpip.a
 
-.PHONY: all
+include arch/$(ARCH)/toolchain.mk
 
-all: $(LIBDIR) $(LIB)
+# Add define for variant and architecture
+ARCHDEF=$(shell echo $(ARCH) | tr a-z A-Z)
+VARIANTDEF=$(shell echo $(VARIANT) | tr a-z A-Z)
+CFLAGS+=-DARCH_$(ARCHDEF)
+CFLAGS+=-DVARIANT_$(VARIANTDEF)
+
+.PHONY: info all
+
+all: info $(LIBDIR) $(LIB)
+
+info:
+	@echo Building LibPip2 for architecture $(ARCH), variant $(VARIANT).
 
 clean: 
 	rm -rf $(LIBDIR) $(OBJ) $(AOBJ)
