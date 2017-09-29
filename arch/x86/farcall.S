@@ -31,11 +31,17 @@ CG_HELPER_INTMASKED	outl, 			$0x50,	2
 CG_HELPER_INTMASKED	inl, 			$0x58,	1
 CG_HELPER_INTMASKED	outaddrl,		$0x88,	2
 
-CG_HELPER 		createPartitionInt ,	$0x60, 	5
+CG_HELPER 		createPartition ,	$0x60, 	5
 CG_HELPER 		pageMapCount ,		$0x68, 	2
 CG_HELPER 		prepare,		$0x70, 	4
 CG_HELPER 		mapPage,		$0x78, 	6
-CG_HELPER 		dispatchInt,		$0x80, 	5
+CG_HELPER 		dispatch,		$0x80, 	5
 
 CG_HELPER 		pip_time,		$0x90, 	0
 CG_HELPER 		resume,			$0x98, 	2
+CG_HELPER		unmapPage,		$0xA0,	2
+
+CG_HELPER       mappedInChild,  $0xA8, 1
+CG_HELPER       deletePartition,$0xB0, 1
+CG_HELPER       collect,        $0xB8, 2
+
