@@ -46,3 +46,9 @@ Then, you need to port only two methods :
 LibPip now support variants, i.e. different implementations of the same hardware architecture.
 You can add your own variant in `arch/target/variants` and pass it to the `make` command (e.g. `make ARCH=x86 VARIANT=galileo`) to compile LibPip using these files.
 By default, the `default` variant is compiled. On the x86 architecture, it only contains the `Pip_Debug_Putc` method.
+
+### x86 architecture variants
+
+For the current public release of Pip, the `default` variant should be used, as it targets the x86_multiboot platform.
+
+For the upcoming x86mp platform of Pip (x86 multi-core), you should use the `smp` variant instead, as it features SYSENTER as a way to enter the kernel as well as the Pip_SmpRequest() call.

@@ -17,6 +17,7 @@
 #define Pip_MappedInChild(a)                __Arch_APICall(MAPPEDINCHILD, 1, a)
 #define Pip_DeletePartition(a)              __Arch_APICall(DELETEPARTITION, 1, a)
 #define Pip_Collect(a)                      __Arch_APICall(COLLECT, 1, a)
+#define Pip_SmpRequest(a, b)                __Arch_APICall(SMPREQUEST, 2, a, b)
 
 /* Wrappers */
 uint32_t Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination);
