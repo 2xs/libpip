@@ -10,15 +10,18 @@ void *Pager_FirstFreePage = NULL;
 /* Initializes paging, depending on the addresses given */
 int Pip_InitPaging(void *begin, void *end)
 {
+
+
 	unsigned long p, b=(unsigned long)begin, e=(unsigned long)end, c=0;
 
 	if (b >= e || (b & PGMASK) || (e & PGMASK))
 		return -1;
 
 	Pager_FirstFreePage = begin;
+	for	( p = b + PGSIZE; p < e; p+=PGSIZE){
 
-	for	( p = b + PGSIZE; p != e; p+=PGSIZE){
 		*(void**)b = (void*)p;
+
 		b = p;
 		c += 1;
 	}
@@ -26,8 +29,7 @@ int Pip_InitPaging(void *begin, void *end)
 
     Pip_Debug_Puts("LibPip2 : Paging initialization complete. ");
     Pip_Debug_PutDec(c);
-    Pip_Debug_Puts(" pages available.\n");
-
+   Pip_Debug_Puts(" pages available.\r\n");
 	return 0;
 }
 
@@ -35,11 +37,15 @@ int Pip_InitPaging(void *begin, void *end)
 void* Pip_AllocPage(void)
 {
     void* ret = Pager_FirstFreePage;
+	if(!ret)
+			return 0;
 
-    if (ret) Pager_FirstFreePage = *(void**)ret;
-    else ret = 0;
+		Pager_FirstFreePage = *(void**)ret;
+		int j;
+		for(j=0;j<PGSIZE;j++)
+				((char*)ret)[j] = (char)0;
 
-    return ret;
+   return ret;
 }
 
 /* Frees a page */

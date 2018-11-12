@@ -1,5 +1,5 @@
 /*******************************************************************************/
-/*  © Université Lille 1, The Pip Development Team (2015-2016)                 */
+/*  © Université Lille 1, The Pip Development Team (2015-2017)                 */
 /*                                                                             */
 /*  This software is a computer program whose purpose is to run a minimal,     */
 /*  hypervisor relying on proven properties such as memory isolation.          */
@@ -32,66 +32,67 @@
 /*******************************************************************************/
 
 /**
- * \file fpinfo.h
- * \brief First partition info structure header
+ * \file debug.h
+ * \brief Include file for debugging output
  */
 
-#ifndef __FPINFO__
-#define __FPINFO__
 
-#define FPINFO_MAGIC 0xDEADCAFE
+#ifndef __SCR__
+#define __SCR__
+
+#include <stdint.h>
+#include <stdarg.h>
+
+void counter_update(uint32_t begin);
+void display_time();
+
+int printf(const char *format, ...);
 
 /**
- * \enum fpinfo_devicetype
- * \brief Describes the device type
+ * \brief Strings for debugging output.
  */
-enum fpinfo_devicetype {BUILTIN, PCI, OTHER};
+
+
+#define PIP_DEBUG_MODE 1
+
+#define CRITICAL	1 //!< Critical output
+#define	ERROR		2 //!< Error output
+#define WARNING		3 //!< Warning output
+#define	INFO		4 //!< Information output
+#define LOG		    5 //!< Log output
+#define TRACE		6 //!< Annoying, verbose output
+
+#define True 1
+#define False 0
+
+
+#ifndef LOGLEVEL
+#define LOGLEVEL INFO
+#endif
 
 /**
- * \struct fpinfo_pci_extendedinfo
- * \brief Describes a PCI device (leaves the further parsing up to the partition)
+ * \brief Defines the appropriate DEBUGRAW behavior.
  */
-typedef struct fpinfo_pci_extendedinfo
-{
-    uint8_t device_class; //!< Device class
-    uint8_t device_subclass; //!< Device subclass
-    uint8_t bus; //!< PCI bus
-    uint8_t slot; //!< PCI slot in bus
-} pip_fpinfo_pci_extendedinfo;
+#define DEBUGRAW(a) krn_puts(a)
 
 /**
- * \struct fpinfo_device
- * \brief Represents a device, as probed by IAL
+ * \brief Defines the appropriate DEBUG behavior.
  */
-typedef struct fpinfo_device {
-    enum fpinfo_devicetype type; //!< Described device type
-    uint32_t mmio_begin; //!< Device memory range begin
-    uint32_t mmio_end; //!< Device memory range end
-    uint32_t io_begin; //!< IO port range begin
-    uint32_t io_end; //!< IO port range end
-    struct fpinfo_pci_extendedinfo *extended_info; //!< Describes the internals of a PCI device. NULL on other device types
-} pip_fpinfo_device;
-
+#define DEBUG(l,a,...) if(l <= LOGLEVEL){printf(#l "PARTITION [%s:%d]" a "\r\n", __FILE__, __LINE__, ##__VA_ARGS__);}
+/* #define DEBUG(l,a) { krn_puts(debugstr[l]); krn_puts("["); krn_puts(__FILE__); krn_puts(":"); putdec(__LINE__); krn_puts("] "); krn_puts(a);} */
+#define IAL_DEBUG(l,a,...) if(l<=LOGLEVEL){ printf(#l " IAL [%s:%d] " a "\r\n", __FILE__, __LINE__, ##__VA_ARGS__);}
 /**
- * \struct fpinfotag_hw
- * \brief First partition info, hardware section
+ * \brief Defines the appropriate DEBUGHEX behavior.
  */
-typedef struct fpinfotag_hw
-{
-    uint32_t hwcount; //!< Amount of pip_fpinfo_device structures
-    pip_fpinfo_device *devices; //!< Array containing hwcount devices
-} pip_fpinfotag_hw;
-
+#define DEBUGHEX(a) puthex(a)
 /**
- * \struct fpinfo
- * \brief First partition info structure
+ * \brief Defines the appropriate DEBUGDEC behavior.
  */
-typedef struct fpinfo {
-	uint32_t magic; //!< Magic number, should be FPINFO_MAGIC
-	uint32_t membegin; //!< Available memory range begin
-	uint32_t memend; //!< Available memory range end
-	char revision[64]; //!< Pip Git revision
-  pip_fpinfotag_hw hwinfo; //!< Hardware info
-} pip_fpinfo;
+#define DEBUGDEC(a) putdec(a)
 
+
+
+
+#define BENCH_BEGIN counter_update(1)
+#define BENCH_END {counter_update(0); DEBUG(TRACE, "Benchmark lasted "); display_time();}
 #endif

@@ -21,6 +21,7 @@
 
 /* Wrappers */
 uint32_t Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination);
+uint32_t Pip_MapPageWrapper_RONLY(uint32_t source, uint32_t partition, uint32_t destination);
 uint32_t Pip_Notify(uint32_t destination, uint32_t int_no, uint32_t data1, uint32_t data2);
 
 #endif

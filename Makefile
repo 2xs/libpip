@@ -17,7 +17,6 @@ LIBDIR=lib
 LIB=$(LIBDIR)/libpip.a
 
 include arch/$(ARCH)/variants/$(VARIANT)/toolchain.mk
-
 # Add define for variant and architecture
 ARCHDEF=$(shell echo $(ARCH) | tr a-z A-Z)
 VARIANTDEF=$(shell echo $(VARIANT) | tr a-z A-Z)

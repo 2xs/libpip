@@ -3,7 +3,6 @@
 
 #define ARCH_INDEPENDANT    0
 #define ARCH_DEPENDANT      12
-
 /* Architecture-independant entries */
 #define CREATEPARTITION     (ARCH_INDEPENDANT)
 #define PAGECOUNT           (ARCH_INDEPENDANT + 1)
@@ -17,5 +16,4 @@
 #define DELETEPARTITION     (ARCH_INDEPENDANT + 9)
 #define COLLECT             (ARCH_INDEPENDANT + 10)
 #define SMPREQUEST          (ARCH_INDEPENDANT + 11)
-
 #endif
