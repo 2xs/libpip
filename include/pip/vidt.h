@@ -11,7 +11,7 @@
 					push %ebx; \
 					push %eax; \
 					.extern n; \
-					call n; 
+					call n;
 #else
 
 #include <stdint.h>
@@ -54,8 +54,8 @@ typedef struct __pack vidt_int_ctx_s
  * Contexts saved by kernel :
  *	0xfffff800 : context int
  *		0xfffff800 : registers
- *		0xfffff820 : eflags			
- *		0xfffff824 : eip				
+ *		0xfffff820 : eflags
+ *		0xfffff824 : eip
  *		0xfffff828 : valid flag
  *	0xfffff840 : context isr
  *		// same
@@ -67,14 +67,14 @@ typedef struct __pack vidt_int_ctx_s
  * Contexts saved by self to cope w/ race conditions while resuming
  *		0xfffff980 : int
  *		0xfffff9C0 : isr
-	
+
  * Virtual flags
  *  0xfffffffc : flags (VIF = 1)
  */
 typedef struct __pack vidt_s
 {
 	struct __pack vidt_vint_s
-	{ 
+	{
 		uint32_t eip;
 		uint32_t esp;
 	} vint[0x100];
@@ -93,14 +93,12 @@ typedef struct __pack vidt_s
 #define CURRENT_VIDT ((vidt_t *)0xfffff000)
 
 #define INTERRUPT_HANDLER(a, n)    extern void a(); void n(uint32_t data1, uint32_t data2, uint32_t caller) {
-#define END_OF_INTERRUPT           viret();}
+#define END_OF_INTERRUPT           resume(caller, 0);}
 
-void registerInterrupt(uint32_t intno, void* handler, uint32_t* stack);
-void vcli(void); // Virtual IRQ disable
-void vsti(void); // Virtual IRQ enable
-void vidt_init(void*);
-void resumeHandler(void);
-void rootResumeHandler(void);
+void Pip_RegisterInterrupt(uint32_t intno, void* handler, uint32_t* stack);
+void Pip_VCLI(void); // Virtual IRQ disable
+void Pip_VSTI(void); // Virtual IRQ enable
+void Pip_InitVIDT(void*);
 
 #endif
 #endif

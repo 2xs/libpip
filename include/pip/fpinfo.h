@@ -51,7 +51,7 @@ enum fpinfo_devicetype {BUILTIN, PCI, OTHER};
  * \struct fpinfo_pci_extendedinfo
  * \brief Describes a PCI device (leaves the further parsing up to the partition)
  */
-typedef struct fpinfo_pci_extendedinfo 
+typedef struct fpinfo_pci_extendedinfo
 {
     uint8_t device_class; //!< Device class
     uint8_t device_subclass; //!< Device subclass
@@ -65,8 +65,8 @@ typedef struct fpinfo_pci_extendedinfo
  */
 typedef struct fpinfo_device {
     enum fpinfo_devicetype type; //!< Described device type
-    uintptr_t mmio_begin; //!< Device memory range begin
-    uintptr_t mmio_end; //!< Device memory range end
+    uint32_t mmio_begin; //!< Device memory range begin
+    uint32_t mmio_end; //!< Device memory range end
     uint32_t io_begin; //!< IO port range begin
     uint32_t io_end; //!< IO port range end
     struct fpinfo_pci_extendedinfo *extended_info; //!< Describes the internals of a PCI device. NULL on other device types
@@ -91,7 +91,7 @@ typedef struct fpinfo {
 	uint32_t membegin; //!< Available memory range begin
 	uint32_t memend; //!< Available memory range end
 	char revision[64]; //!< Pip Git revision
-    pip_fpinfotag_hw hwinfo; //!< Hardware info
+  pip_fpinfotag_hw hwinfo; //!< Hardware info
 } pip_fpinfo;
 
 #endif

@@ -1,5 +1,5 @@
 /*******************************************************************************/
-/*  © Université Lille 1, The Pip Development Team (2015-2016)                 */
+/*  © Université Lille 1, The Pip Development Team (2015-2017)                 */
 /*                                                                             */
 /*  This software is a computer program whose purpose is to run a minimal,     */
 /*  hypervisor relying on proven properties such as memory isolation.          */
@@ -32,63 +32,67 @@
 /*******************************************************************************/
 
 /**
- * \file serial.c
- * \brief Serial driver for debugging purposes
+ * \file debug.h
+ * \brief Include file for debugging output
  */
-#include "pip/serial.h"
-#include "pip/io.h"
-#include "pip/galileo-support.h"
-#define PORT 0x3f8 //!< Serial port COM1 number
+
+
+#ifndef __SCR__
+#define __SCR__
+
+#include <stdint.h>
+#include <stdarg.h>
+
+void counter_update(uint32_t begin);
+void display_time();
+
+int printf(const char *format, ...);
 
 /**
- * \fn void initSerial()
- * \brief Initializes the serial port
+ * \brief Strings for debugging output.
  */
-/*
-void initSerial() {
-       outb(PORT + 1, 0x00);    // Disable all interrupts
-       outb(PORT + 3, 0x80);    // Enable DLAB (set baud rate divisor)
-       outb(PORT + 0, 0x03);    // Set divisor to 3 (lo byte) 38400 baud
-       outb(PORT + 1, 0x00);    //                  (hi byte)
-       outb(PORT + 3, 0x03);    // 8 bits, no parity, one stop bit
-       outb(PORT + 2, 0xC7);    // Enable FIFO, clear them, with 14-byte threshold
-       outb(PORT + 4, 0x0B);    // IRQs enabled, RTS/DSR set
-}
-*/
-/**
- * \fn int serialReceived()
- * \brief Checks whether we received some data on the serial port
- * \return 1 if some data is available, 0 else
- */
-int serialReceived() {
-       return 0;
-}
+
+
+#define PIP_DEBUG_MODE 1
+
+#define CRITICAL	1 //!< Critical output
+#define	ERROR		2 //!< Error output
+#define WARNING		3 //!< Warning output
+#define	INFO		4 //!< Information output
+#define LOG		    5 //!< Log output
+#define TRACE		6 //!< Annoying, verbose output
+
+#define True 1
+#define False 0
+
+
+#ifndef LOGLEVEL
+#define LOGLEVEL INFO
+#endif
 
 /**
- * \fn char readSerial()
- * \brief Gets a character from the serial port
- * \return The character
+ * \brief Defines the appropriate DEBUGRAW behavior.
  */
-char readSerial() {
-    return ucGalileoGetchar();
-}
+#define DEBUGRAW(a) krn_puts(a)
 
 /**
- * \fn int isTransmitEmpty()
- * \brief Checks whether our serial line buffer is empty or not
- * \return 0 if it's not empty, 1 else
+ * \brief Defines the appropriate DEBUG behavior.
  */
-int isTransmitEmpty() {
-       return 0;
-}
-
+#define DEBUG(l,a,...) if(l <= LOGLEVEL){printf(#l "PARTITION [%s:%d]" a "\r\n", __FILE__, __LINE__, ##__VA_ARGS__);}
+/* #define DEBUG(l,a) { krn_puts(debugstr[l]); krn_puts("["); krn_puts(__FILE__); krn_puts(":"); putdec(__LINE__); krn_puts("] "); krn_puts(a);} */
+#define IAL_DEBUG(l,a,...) if(l<=LOGLEVEL){ printf(#l " IAL [%s:%d] " a "\r\n", __FILE__, __LINE__, ##__VA_ARGS__);}
 /**
- * \fn void writeSerial(char a)
- * \brief Writes a character into the serial port
- * \param a The character to write
+ * \brief Defines the appropriate DEBUGHEX behavior.
  */
-void writeSerial(char a) {
+#define DEBUGHEX(a) puthex(a)
+/**
+ * \brief Defines the appropriate DEBUGDEC behavior.
+ */
+#define DEBUGDEC(a) putdec(a)
 
-    vGalileoPrintc(a);
 
-}
+
+
+#define BENCH_BEGIN counter_update(1)
+#define BENCH_END {counter_update(0); DEBUG(TRACE, "Benchmark lasted "); display_time();}
+#endif
