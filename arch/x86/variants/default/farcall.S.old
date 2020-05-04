@@ -1,0 +1,38 @@
+/* https://sourceware.org/binutils/docs/as/Macro.html */
+
+.macro INIT_ARGS from=0, nargs
+.if	\nargs-\from
+	pushl	(4*((\from)+1))(%esp)
+	INIT_ARGS "(\from+1)",\nargs
+.endif
+.endm
+
+.macro CG_HELPER name, o, nargs
+.global \name
+\name:
+	INIT_ARGS 0, \nargs
+	lcall	\o,$0x0
+.if	\nargs-0
+	add	$(4*(\nargs)),%esp
+.endif
+	ret
+.endm
+
+CG_HELPER	outb,			$0x30,	2
+CG_HELPER	inb,			$0x38,	1
+CG_HELPER	outw,			$0x40,	2
+CG_HELPER	inw,			$0x48,	1
+CG_HELPER	outl,			$0x50,	2
+CG_HELPER	inl,			$0x58,	1
+CG_HELPER	createPartition,	$0x60,	5
+CG_HELPER	pageMapCount,		$0x68,	2
+CG_HELPER	prepare,		$0x70,	4
+CG_HELPER	mapPage,		$0x78,	6
+CG_HELPER	dispatch,		$0x80,	5
+CG_HELPER	outaddrl,		$0x88,	2
+CG_HELPER	pip_time,		$0x90,	0
+CG_HELPER	resume,			$0x98,	2
+CG_HELPER	unmapPage,		$0xa0,	2
+CG_HELPER	mappedInChild,		$0xa8,	1
+CG_HELPER	deletePartition,	$0xb0,	1
+CG_HELPER	collect,		$0xb8,	2

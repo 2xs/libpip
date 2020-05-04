@@ -1,0 +1,5 @@
+build_lib:
+        script: "make all"
+        tags:
+                - docker
+        image: "cristal2xs/jhc"
