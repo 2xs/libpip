@@ -2,10 +2,9 @@
 #include "pip/paging.h"
 
 extern uint32_t
-Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination/*, uint32_t rights*/)
+Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination)
 {
 	uint32_t i, count, *page, *current;
-	/*uint8_t r, w, e;*/
 
 	if ((count = Pip_CountToMap(partition, destination)) > 0)
 	{
@@ -25,10 +24,6 @@ Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination/*, 
 			return 0;
 		}
 	}
-
-	/*r =  rights       & 1;
-	w = (rights >> 1) & 1;
-	e = (rights >> 2) & 1;*/
 
 	if (!Pip_AddVAddr(source, partition, destination, 1, 1, 1))
 	{

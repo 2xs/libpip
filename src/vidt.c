@@ -1,23 +1,24 @@
 #include <stdint.h>
+
+#include <pip/stdio.h>
 #include <pip/vidt.h>
 
-void registerIntBase(vidt_t *vidt, uint32_t intno, void* handler, uint32_t* stack)
+/*!
+ * \fn extern void Pip_RegisterInterrupt(user_ctx_t *handlerContext,
+ *		uint32_t interruptNumber, uint32_t handlerAddress)
+ * \brief Register a han
+ *
+ */
+extern void Pip_RegisterInterrupt(user_ctx_t *handlerContext,
+		uint32_t interruptNumber, uint32_t handlerAddress)
 {
-	vidt->vint[intno].eip = (uint32_t)handler;
-	vidt->vint[intno].esp = (uint32_t)stack;
-}
+	// Initialize the context with zero
+	memset(handlerContext, 0, sizeof(user_ctx_t));
 
-void Pip_RegisterInterrupt(uint32_t intno, void* handler, uint32_t* stack)
-{
-	registerIntBase(CURRENT_VIDT, intno, handler, stack);
-}
+	// Fill the context with the handler address
+	handlerContext->eip   = handlerAddress;
+	handlerContext->valid = 1;
 
-void Pip_VCLI(void)
-{
-	CURRENT_VIDT->flags |= 1;
-}
-
-void Pip_VSTI(void)
-{
-	CURRENT_VIDT->flags &= ~1;
+	// Save the context address in the VIDT
+	VIDT[interruptNumber] = handlerContext;
 }

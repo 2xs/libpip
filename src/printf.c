@@ -1,9 +1,15 @@
 #include <stdarg.h>
+
 #include "pip/stdio.h"
 
 static char *convert(unsigned int integer, unsigned int base);
 static char *uppercase(char *ptr);
 
+/*!
+ * \fn extern void printf(const char *format, ...)
+ * \brief Print a formatted string on the serial link
+ * \param format The formatted string to print
+ */
 extern void printf(const char *format, ...)
 {
 	va_list ap;
@@ -17,8 +23,10 @@ extern void printf(const char *format, ...)
 			switch (format[i+1])
 			{
 				case '%':
+				{
 					putchar('%');
 					break;
+				}
 				case 'b':
 				{
 					unsigned int arg = va_arg(ap, unsigned int);
@@ -80,6 +88,12 @@ extern void printf(const char *format, ...)
 	va_end(ap);
 }
 
+/*!
+ * \fn static char *convert(unsigned int integer, unsigned int base)
+ * \brief Converts an integer into a string in the desired base
+ * \param integer The integer to convert into a string
+ * \param base The base in which to convert the integer
+ */
 static char *convert(unsigned int integer, unsigned int base)
 {
 	char const charset[] = "0123456789abcdef";
@@ -101,6 +115,11 @@ static char *convert(unsigned int integer, unsigned int base)
 	return ptr;
 }
 
+/*!
+ * \fn static char *uppercase(char *ptr)
+ * \brief Capitalize a string
+ * \param ptr The string to capitalize
+ */
 static char *uppercase(char *ptr)
 {
 	for (unsigned int i = 0; ptr[i] != '\0'; i++)

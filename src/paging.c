@@ -8,14 +8,14 @@
 void *Pager_FirstFreePage = NULL;
 
 /* Initializes paging, depending on the addresses given */
-int Pip_InitPaging(void *begin, void *end)
+int Pip_InitPaging(uint32_t begin, uint32_t end)
 {
-	unsigned long p, b=(unsigned long)begin, e=(unsigned long)end, c=0;
+	uint32_t p, b = begin, e = end, c = 0;
 
 	if (b >= e || (b & PGMASK) || (e & PGMASK))
 		return 0;
 
-	Pager_FirstFreePage = begin;
+	Pager_FirstFreePage = (void *) begin;
 
 	for (p = b + PGSIZE; p < e; p += PGSIZE)
 	{
