@@ -9,19 +9,18 @@
  */
 extern user_ctx_t *Pip_AllocContext(void)
 {
-	static uint32_t maxAllocationNumber = PAGE_SIZE / sizeof(user_ctx_t);
-	static uint32_t allocationNumber = 0;
+	static uint32_t availableBytes = 0;
 	static uint32_t contextAddress = 0;
 
-	if (contextAddress == 0 || allocationNumber == maxAllocationNumber)
+	if (availableBytes == 0)
 	{
 		contextAddress = (uint32_t) Pip_AllocPage();
-		allocationNumber = 1;
+		availableBytes = PAGE_SIZE;
 	}
 	else
 	{
 		contextAddress += sizeof(user_ctx_t);
-		allocationNumber++;
+		availableBytes -= sizeof(user_ctx_t);
 	}
 
 	return (user_ctx_t *) contextAddress;
