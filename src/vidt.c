@@ -20,8 +20,8 @@ extern void Pip_RegisterInterrupt(user_ctx_t *handlerContext,
 	handlerContext->eip      = handlerAddress;
 	handlerContext->pipflags = pipFlags;
 	handlerContext->eflags   = 0x202;
-	handlerContext->regs.ebp = stackAddress;
-	handlerContext->regs.esp = stackAddress;
+	handlerContext->regs.ebp = stackAddress + PAGE_SIZE;
+	handlerContext->regs.esp = stackAddress + PAGE_SIZE;
 	handlerContext->valid    = 1;
 
 	// Save the context address in the VIDT
