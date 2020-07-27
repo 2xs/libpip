@@ -9,8 +9,10 @@
  */
 extern user_ctx_t *Pip_AllocContext(void)
 {
-	static uint32_t availableBytes = 0;
+	static uint32_t availableBytes = sizeof(user_ctx_t);
 	static uint32_t contextAddress = 0;
+
+	availableBytes -= sizeof(user_ctx_t);
 
 	if (availableBytes == 0)
 	{
@@ -20,7 +22,6 @@ extern user_ctx_t *Pip_AllocContext(void)
 	else
 	{
 		contextAddress += sizeof(user_ctx_t);
-		availableBytes -= sizeof(user_ctx_t);
 	}
 
 	return (user_ctx_t *) contextAddress;
