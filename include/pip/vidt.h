@@ -57,21 +57,6 @@ typedef struct __packed user_ctx_s
 	uint32_t nfu[4];    //!< Unused
 } user_ctx_t;
 
-/*!
- * \def INTERRUPT_HANDLER(handler)
- * \brief
- */
-#define INTERRUPT_HANDLER(handlerName)				\
-	user_ctx_t handlerName##Context; void handlerName(void)
-
-/*!
- * \def INTERRUPT_REGISTER(interruptNumber, handlerAddress, stackAddress, pipFlags)
- * \brief
- */
-#define INTERRUPT_REGISTER(interruptNumber, handlerName, stackAddress, pipFlags)	\
-	Pip_RegisterInterrupt(&handlerName##Context, interruptNumber,			\
-		(uint32_t) (handlerName), (uint32_t) (stackAddress), pipFlags)
-
 extern user_ctx_t *Pip_AllocContext(void);
 
 extern void Pip_RegisterInterrupt(user_ctx_t *handlerContext,
