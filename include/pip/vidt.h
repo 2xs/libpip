@@ -19,8 +19,12 @@
  * \def VIDT
  * \brief The VIDT of the current partition
  */
-#define VIDT		((user_ctx_t **) VIDT_VADDR)
+#define VIDT	((user_ctx_t **) VIDT_VADDR)
 
+
+/*!
+ * \def__packed
+ */
 #define __packed __attribute__((packed))
 
 /*!
@@ -29,14 +33,14 @@
  */
 typedef struct __packed pushad_regs_s
 {
-	uint32_t edi;       //!< General register EDI
-	uint32_t esi;       //!< General register ESI
-	uint32_t ebp;       //!< Base pointer
-	uint32_t esp;       //!< Stack pointer
-	uint32_t ebx;       //!< General register EBX
-	uint32_t edx;       //!< General register EDX
-	uint32_t ecx;       //!< General register ECX
-	uint32_t eax;       //!< General register EAX
+	uint32_t edi; //!< General register EDI
+	uint32_t esi; //!< General register ESI
+	uint32_t ebp; //!< Base pointer
+	uint32_t esp; //!< Stack pointer
+	uint32_t ebx; //!< General register EBX
+	uint32_t edx; //!< General register EDX
+	uint32_t ecx; //!< General register ECX
+	uint32_t eax; //!< General register EAX
 } pushad_regs_t;
 
 /*!
@@ -53,9 +57,23 @@ typedef struct __packed user_ctx_s
 	uint32_t nfu[4];    //!< Unused
 } user_ctx_t;
 
-#define INTERRUPT_HANDLER(handler)	user_ctx_t handler ## Context; void handler(void)
-#define INTERRUPT_REGISTER(intno, handler)	Pip_RegisterInterrupt(&handler ## Context, intno, (uint32_t) handler)
+/*!
+ * \def INTERRUPT_HANDLER(handler)
+ * \brief
+ */
+#define INTERRUPT_HANDLER(handlerName)				\
+	user_ctx_t handlerName##Context; void handlerName(void)
 
-void Pip_RegisterInterrupt(user_ctx_t *handlerContext, uint32_t interruptNumber, uint32_t handlerAddress);
+/*!
+ * \def INTERRUPT_REGISTER(interruptNumber, handlerAddress, stackAddress, pipFlags)
+ * \brief
+ */
+#define INTERRUPT_REGISTER(interruptNumber, handlerName, stackAddress, pipFlags)	\
+	Pip_RegisterInterrupt(&handlerName##Context, interruptNumber,			\
+		(uint32_t) (handlerName), (uint32_t) (stackAddress), pipFlags)
+
+extern void Pip_RegisterInterrupt(user_ctx_t *handlerContext,
+		uint32_t interruptNumber, uint32_t handlerAddress,
+		uint32_t stackAddress, uint32_t pipFlags);
 
 #endif
