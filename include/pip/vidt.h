@@ -72,8 +72,12 @@ typedef struct __packed user_ctx_s
 	Pip_RegisterInterrupt(&handlerName##Context, interruptNumber,			\
 		(uint32_t) (handlerName), (uint32_t) (stackAddress), pipFlags)
 
+extern user_ctx_t *Pip_AllocContext(void);
+
 extern void Pip_RegisterInterrupt(user_ctx_t *handlerContext,
-		uint32_t interruptNumber, uint32_t handlerAddress,
-		uint32_t stackAddress, uint32_t pipFlags);
+				  uint32_t interruptNumber,
+				  uint32_t handlerAddress,
+				  uint32_t stackAddress,
+				  uint32_t pipFlags);
 
 #endif
