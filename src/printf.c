@@ -10,7 +10,7 @@ static char *uppercase(char *ptr);
  * \brief Print a formatted string on the serial link
  * \param format The formatted string to print
  */
-extern void printf(const char *format, ...)
+extern void printff(const char *format, ...)
 {
 	va_list ap;
 

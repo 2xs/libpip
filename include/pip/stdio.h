@@ -7,7 +7,7 @@ void Pip_Debug_Putc(char c);
 
 extern void putchar(int c);
 extern void puts(const char *msg);
-extern void printf(const char *format, ...);
+extern void printff(const char *format, ...);
 extern void *memset(void *dest, int val, unsigned long int len);
 
 #define RED() puts("\e[91m")

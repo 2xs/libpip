@@ -59,6 +59,12 @@ typedef struct __packed user_ctx_s
 
 extern user_ctx_t *Pip_AllocContext(void);
 
+extern void Pip_Notify(uint32_t calleePartDescVAddr,
+		       uint32_t calleeVidtVAddr,
+		       uint32_t userTargetInterrupt);
+
+extern void Pip_Resume(void);
+
 extern void Pip_RegisterInterrupt(user_ctx_t *handlerContext,
 				  uint32_t interruptNumber,
 				  uint32_t handlerAddress,

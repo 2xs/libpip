@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <pip/stdio.h>
 
 extern uint32_t outb(uint32_t a, uint32_t b)
 {
