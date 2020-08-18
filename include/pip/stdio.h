@@ -1,64 +1,78 @@
-#ifndef DEF_DEBUG_H
-#define DEF_DEBUG_H
+/*******************************************************************************/
+/*  © Université Lille 1, The Pip Development Team (2015-2020)                 */
+/*                                                                             */
+/*  This software is a computer program whose purpose is to run a minimal,     */
+/*  hypervisor relying on proven properties such as memory isolation.          */
+/*                                                                             */
+/*  This software is governed by the CeCILL license under French law and       */
+/*  abiding by the rules of distribution of free software.  You can  use,      */
+/*  modify and/ or redistribute the software under the terms of the CeCILL     */
+/*  license as circulated by CEA, CNRS and INRIA at the following URL          */
+/*  "http://www.cecill.info".                                                  */
+/*                                                                             */
+/*  As a counterpart to the access to the source code and  rights to copy,     */
+/*  modify and redistribute granted by the license, users are provided only    */
+/*  with a limited warranty  and the software's author,  the holder of the     */
+/*  economic rights,  and the successive licensors  have only  limited         */
+/*  liability.                                                                 */
+/*                                                                             */
+/*  In this respect, the user's attention is drawn to the risks associated     */
+/*  with loading,  using,  modifying and/or developing or reproducing the      */
+/*  software by the user in light of its specific status of free software,     */
+/*  that may mean  that it is complicated to manipulate,  and  that  also      */
+/*  therefore means  that it is reserved for developers  and  experienced      */
+/*  professionals having in-depth computer knowledge. Users are therefore      */
+/*  encouraged to load and test the software's suitability as regards their    */
+/*  requirements in conditions enabling the security of their systems and/or   */
+/*  data to be ensured and,  more generally, to use and operate it in the      */
+/*  same conditions as regards security.                                       */
+/*                                                                             */
+/*  The fact that you are presently reading this means that you have had       */
+/*  knowledge of the CeCILL license and that you accept its terms.             */
+/*******************************************************************************/
 
-#include <stdint.h>
+#ifndef __DEF_STDIO_H__
+#define __DEF_STDIO_H__
 
-void Pip_Debug_Putc(char c);
+#include "pip/api.h"
 
-extern void putchar(int c);
-extern void puts(const char *msg);
-extern void printff(const char *format, ...);
-extern void *memset(void *dest, int val, unsigned long int len);
+#define putchar(c)	Pip_Debug_Putc(c)
 
-#define RED() puts("\e[91m")
-#define GREEN() puts("\e[92m")
-#define BLUE() puts("\e[34m")
-#define NOCOL() puts("\e[0m")
-
-
-
-#define PIP_DEBUG_MODE 1
-
-#define CRITICAL	1 //!< Critical output
-#define	ERROR		2 //!< Error output
-#define WARNING		3 //!< Warning output
-#define	INFO		4 //!< Information output
-#define LOG		    5 //!< Log output
-#define TRACE		6 //!< Annoying, verbose output
-
-#define True 1
-#define False 0
-
-
-#ifndef LOGLEVEL
-#define LOGLEVEL INFO
-#endif
-
-/**
- * \brief Defines the appropriate DEBUGRAW behavior.
+/*!
+ * \brief	Print a string to the serial link
+ *
+ * \param s	The string to print to the serial link
  */
-#define DEBUGRAW(a) krn_puts(a)
+extern void puts(const char *s);
 
-/**
- * \brief Defines the appropriate DEBUG behavior.
+/*!
+ * \brief		Print a formatted string to the serial link
+ *
+ * \param format	The formatted string to print to the serial link
+ *
+ * \return		The number of printed characters
  */
-#define DEBUG(l,a,...) if(l <= LOGLEVEL){printf(#l "PARTITION [%s:%d]" a "\r\n", __FILE__, __LINE__, ##__VA_ARGS__);}
-/* #define DEBUG(l,a) { krn_puts(debugstr[l]); krn_puts("["); krn_puts(__FILE__); krn_puts(":"); putdec(__LINE__); krn_puts("] "); krn_puts(a);} */
-#define IAL_DEBUG(l,a,...) if(l<=LOGLEVEL){ printf(#l " IAL [%s:%d] " a "\r\n", __FILE__, __LINE__, ##__VA_ARGS__);}
-/**
- * \brief Defines the appropriate DEBUGHEX behavior.
+extern int printf(const char *format, ...);
+
+/*!
+ * \brief		Print a formatted string into str
+ *
+ * \param str		Where to print the formatted string
+ * \param format	The formatted string to print
+ *
+ * \return		The number of printed characters
  */
-#define DEBUGHEX(a) puthex(a)
-/**
- * \brief Defines the appropriate DEBUGDEC behavior.
+extern int sprintf(char *out, const char *format, ...);
+
+/*!
+ * \brief		Print a formatted string of size size into str
+ *
+ * \param str		Where to print the formatted string
+ * \param size		The number of characters to copy
+ * \param format	The formatted string to print
+ *
+ * \return		The number of printed characters
  */
-#define DEBUGDEC(a) putdec(a)
+extern int snprintf(char *buf, unsigned int count, const char *format, ...);
 
-
-
-
-#define BENCH_BEGIN counter_update(1)
-#define BENCH_END {counter_update(0); DEBUG(TRACE, "Benchmark lasted "); display_time();}
-
-
-#endif
+#endif /* __DEF_STDIO_H__ */

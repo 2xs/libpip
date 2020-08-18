@@ -31,63 +31,68 @@
 /*  knowledge of the CeCILL license and that you accept its terms.             */
 /*******************************************************************************/
 
-#ifndef __DEF_STRING_H__
-#define __DEF_STRING_H__
+#include <stdint.h>
+
+#include "pip/stdio.h"
+#include "pip/time.h"
+#include "pip/api.h"
 
 /*!
- * \brief	Calculate the length of the string s, excluding the terminating
- * 		null byte
- *
- * \param s	The string from which to get the length
- *
- * \return	The number of bytes in the string s
+ * \brief Read the time stamp counter using the rdtsc instruction
+ * \return The number of cycles since the last CPU reset
  */
-extern unsigned long strlen(const char* s);
+static uint64_t __rdtsc(void)
+{
+	uint32_t cyclesLow, cyclesHigh;
+
+	asm volatile
+	(
+		"rdtsc;"
+		"mov %%edx, %0;"
+		"mov %%eax, %1"
+		: "=r" (cyclesHigh), "=r" (cyclesLow)
+		:: "eax", "edx"
+	);
+
+	return (((uint64_t) cyclesHigh << 32) | cyclesLow);
+}
 
 /*!
- * \brief	Compare the two null-terminated string s1 and s2
- *
- * \param s1	The first string to compare
- * \param s2	The second string to compare
- *
- * \return	A negative integer if s1 < s2, 0 if s1 == s2 or a positive
- * 		integer if s1 > s2
+ * \brief Read the time stamp counter using the rdtsc instruction
+ * \param Where to store the number of cycles since the last CPU reset
+ * \return The number of cycles since the last CPU reset
  */
-extern int strcmp(const char *s1, const char *s2);
+extern uint64_t time(uint64_t *t)
+{
+	uint64_t timestamp = __rdtsc();
+
+	if (t)
+	{
+		*t = timestamp;
+	}
+
+	return timestamp;
+}
 
 /*!
- * \brief	Fill the first n bytes of the memory area pointed to by s
- *		with the constant byte c
- *
- * \param s	The buffer to fill
- * \param c	The value used to fill
- * \param n	The number of bytes to fill
- *
- * \return	A pointer to the memory area s
+ * \brief Print a 64-bits value
+ * \param val The 64-bits value to print
  */
-extern void *memset(void *s, int c, unsigned long n);
+extern void print64(uint64_t val)
+{
+	static char buf[34] = { [0 ... 33] = 0 };
+	unsigned int hbase = 10;
+	char* out = &buf[33];
+	uint64_t hval = val;
 
-/*!
- * \brief	Copy n bytes from memory area src to memory area dest
- *
- * \param dest	The destination area
- * \param src	The source area
- * \param n	The number of bytes to copy
- *
- * \return	A pointer to dest
- */
-extern void *memcpy(void *dest, const void *src, unsigned long n);
+	do
+	{
+		*out = "0123456789"[hval % hbase];
+		--out;
+		hval /= hbase;
+	} while(hval);
 
-/*!
- * \brief	Compare the first n bytes of the memory areas s1 and s2
- *
- * \param s1	The first area to compare
- * \param s2	The second area to compare
- * \param n	The number of bytes to compare
- *
- * \return	A negative integer if s1 < s2, 0 if s1 == s2 or a positive
- * 		integer if s1 > s2
- */
-extern int memcmp(const void *pvMem1, const void *pvMem2, unsigned long ulBytes);
+	*out-- = ' ', *out = ' ';
 
-#endif /* __DEF_STRING_H__ */
+	puts(out);
+}

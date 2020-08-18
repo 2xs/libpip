@@ -31,63 +31,84 @@
 /*  knowledge of the CeCILL license and that you accept its terms.             */
 /*******************************************************************************/
 
-#ifndef __DEF_STRING_H__
-#define __DEF_STRING_H__
+#include "pip/string.h"
 
-/*!
- * \brief	Calculate the length of the string s, excluding the terminating
- * 		null byte
- *
- * \param s	The string from which to get the length
- *
- * \return	The number of bytes in the string s
- */
-extern unsigned long strlen(const char* s);
+extern unsigned long strlen(const char* s)
+{
+	unsigned long i = 0;
 
-/*!
- * \brief	Compare the two null-terminated string s1 and s2
- *
- * \param s1	The first string to compare
- * \param s2	The second string to compare
- *
- * \return	A negative integer if s1 < s2, 0 if s1 == s2 or a positive
- * 		integer if s1 > s2
- */
-extern int strcmp(const char *s1, const char *s2);
+	while (*(s+i) != '\0')
+	{
+		i++;
+	}
 
-/*!
- * \brief	Fill the first n bytes of the memory area pointed to by s
- *		with the constant byte c
- *
- * \param s	The buffer to fill
- * \param c	The value used to fill
- * \param n	The number of bytes to fill
- *
- * \return	A pointer to the memory area s
- */
-extern void *memset(void *s, int c, unsigned long n);
+	return i;
+}
 
-/*!
- * \brief	Copy n bytes from memory area src to memory area dest
- *
- * \param dest	The destination area
- * \param src	The source area
- * \param n	The number of bytes to copy
- *
- * \return	A pointer to dest
- */
-extern void *memcpy(void *dest, const void *src, unsigned long n);
+extern int strcmp(const char *s1, const char *s2)
+{
+	volatile int ret, i = 0;
 
-/*!
- * \brief	Compare the first n bytes of the memory areas s1 and s2
- *
- * \param s1	The first area to compare
- * \param s2	The second area to compare
- * \param n	The number of bytes to compare
- *
- * \return	A negative integer if s1 < s2, 0 if s1 == s2 or a positive
- * 		integer if s1 > s2
- */
-extern int memcmp(const void *pvMem1, const void *pvMem2, unsigned long ulBytes);
+	while ((*(s1+i) != 0x00) && (*(s2+i) != 0x00))
+	{
+		i++;
+	}
 
-#endif /* __DEF_STRING_H__ */
+	if ((*(s1+i) == 0x00) && (*(s2+i) == 0x00))
+	{
+		ret = 0;
+	}
+	else
+	{
+		ret = ~0;
+	}
+
+	return ret;
+}
+
+extern void *memset(void *s, int c, unsigned long n)
+{
+	volatile unsigned char * volatile t =
+			(volatile unsigned char * volatile) s;
+	volatile unsigned long x;
+
+	for(x = 0; x < n; x++)
+	{
+		*(t+x) = (unsigned char) c;
+	}
+
+	return s;
+}
+
+extern void *memcpy(void *dest, const void *src, unsigned long n)
+{
+	volatile unsigned char *tdest = (volatile unsigned char *) dest,
+			*tsrc = (volatile unsigned char *) src;
+	unsigned long x;
+
+	if (dest != src)
+	{
+		for (x = 0; x < n; x++)
+		{
+			*(tdest+x) = *(tsrc+x);
+		}
+	}
+
+	return dest;
+}
+
+extern int memcmp(const void *s1, const void *s2, unsigned long n)
+{
+	const volatile unsigned char *ts1 = s1, *ts2 = s2;
+	register unsigned long x;
+
+	for (x = 0; x < n; x++)
+	{
+		if (*(ts1+x) != *(ts2+x))
+		{
+			break;
+		}
+	}
+
+	return n - x;
+}
