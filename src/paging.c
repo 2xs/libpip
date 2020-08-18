@@ -7,13 +7,14 @@
 
 void *Pager_FirstFreePage = NULL;
 
-/* Initializes paging, depending on the addresses given */
 int Pip_InitPaging(uint32_t begin, uint32_t end)
 {
 	uint32_t p, b = begin, e = end, c = 0;
 
 	if (b >= e || (b & PGMASK) || (e & PGMASK))
+	{
 		return 0;
+	}
 
 	Pager_FirstFreePage = (void *) begin;
 
@@ -30,7 +31,6 @@ int Pip_InitPaging(uint32_t begin, uint32_t end)
 	return 1;
 }
 
-/* Allocates a page */
 void* Pip_AllocPage(void)
 {
 	void* ret = Pager_FirstFreePage;
@@ -41,12 +41,13 @@ void* Pip_AllocPage(void)
 	Pager_FirstFreePage = *(void**)ret;
 
 	for (int j = 0; j < PGSIZE; j++)
+	{
 		((char *) ret)[j] = (char) 0;
+	}
 
 	return ret;
 }
 
-/* Frees a page */
 void Pip_FreePage(void* page)
 {
 	*(void**)page = Pager_FirstFreePage;
