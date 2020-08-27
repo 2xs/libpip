@@ -88,6 +88,6 @@ extern void *memcpy(void *dest, const void *src, unsigned long n);
  * \return	A negative integer if s1 < s2, 0 if s1 == s2 or a positive
  * 		integer if s1 > s2
  */
-extern int memcmp(const void *pvMem1, const void *pvMem2, unsigned long ulBytes);
+extern int memcmp(const void *s1, const void *s2, unsigned long n);
 
 #endif /* __DEF_STRING_H__ */
