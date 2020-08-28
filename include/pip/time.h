@@ -36,7 +36,20 @@
 
 #include <stdint.h>
 
+/*!
+ * \brief	Read the time stamp counter using the rdtsc instruction
+ *
+ * \param t	Where to store the number of cycles since the last CPU reset
+ *
+ * \return	The number of cycles since the last CPU reset
+ */
 extern uint64_t time(uint64_t *t);
+
+/*!
+ * \brief	Print a 64-bits value
+ *
+ * \param	val The 64-bits value to print
+ */
 extern void print64(uint64_t val);
 
 #endif /* __DEF_TIME_H__ */

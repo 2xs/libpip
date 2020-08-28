@@ -37,10 +37,6 @@
 #include "pip/time.h"
 #include "pip/api.h"
 
-/*!
- * \brief Read the time stamp counter using the rdtsc instruction
- * \return The number of cycles since the last CPU reset
- */
 static uint64_t __rdtsc(void)
 {
 	uint32_t cyclesLow, cyclesHigh;
@@ -57,11 +53,6 @@ static uint64_t __rdtsc(void)
 	return (((uint64_t) cyclesHigh << 32) | cyclesLow);
 }
 
-/*!
- * \brief Read the time stamp counter using the rdtsc instruction
- * \param Where to store the number of cycles since the last CPU reset
- * \return The number of cycles since the last CPU reset
- */
 extern uint64_t time(uint64_t *t)
 {
 	uint64_t timestamp = __rdtsc();
@@ -74,10 +65,6 @@ extern uint64_t time(uint64_t *t)
 	return timestamp;
 }
 
-/*!
- * \brief Print a 64-bits value
- * \param val The 64-bits value to print
- */
 extern void print64(uint64_t val)
 {
 	static char buf[34] = { [0 ... 33] = 0 };
