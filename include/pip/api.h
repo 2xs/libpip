@@ -41,7 +41,7 @@
 
 #define Pip_CreatePartition(a, b, c, d, e)  __Arch_APICall(CREATEPARTITION, 5, a, b, c, d, e)
 #define Pip_CountToMap(a, b)                __Arch_APICall(COUNTTOMAP, 2, a, b)
-#define Pip_Prepare(a, b, c, d)             __Arch_APICall(PREPARE, 4, a, b, c, d)
+#define Pip_Prepare(a, b, c)                __Arch_APICall(PREPARE, 3, a, b, c)
 #define Pip_AddVAddr(a, b, c, d, e, f)      __Arch_APICall(ADDVADDR, 6, a, b, c, d, e, f)
 #define Pip_Get_Int_State(a)                __Arch_APICall(GET_INT_STATE, 1, a)
 #define Pip_Set_Int_State(a)                __Arch_APICall(SET_INT_STATE, 1, a)

@@ -19,7 +19,7 @@ Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination)
 			page = current;
 		}
 
-		if (!Pip_Prepare(partition, destination, (uint32_t) page, 0x0))
+		if (!Pip_Prepare(partition, destination, (uint32_t) page))
 		{
 			return 0;
 		}
