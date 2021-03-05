@@ -173,23 +173,21 @@ extern uint32_t countToMap(uint32_t a, uint32_t b)
 }
 
 extern uint32_t prepare(uint32_t a, uint32_t b,
-	uint32_t c, uint32_t d)
+	uint32_t c)
 {
 	register uint32_t r asm("eax");
 
 	asm volatile
 	(
-		"push	%4;"
 		"push	%3;"
 		"push	%2;"
 		"push	%1;"
 		"lcall	$0x70,$0x0;"
-		"add	$0x10,%%esp;"
+		"add	$0xC,%%esp;"
 		: "=r" (r)
 		: "r" (a),
 		  "r" (b),
-		  "r" (c),
-		  "r" (d)
+		  "r" (c)
 		:
 	);
 

@@ -87,12 +87,7 @@ uint32_t __Arch_APICall_2(uint32_t call, uint32_t a, uint32_t b)
 
 uint32_t __Arch_APICall_3(uint32_t call, uint32_t a, uint32_t b, uint32_t c)
 {
-    return 0;
-}
-
-uint32_t __Arch_APICall_4(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uint32_t d)
-{
-    apicall_4 callptr;
+    apicall_3 callptr;
 
     switch(call)
     {
@@ -103,7 +98,12 @@ uint32_t __Arch_APICall_4(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uin
             return 0;
     }
 
-    return callptr(a, b, c, d);
+    return callptr(a, b, c);
+}
+
+uint32_t __Arch_APICall_4(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uint32_t d)
+{
+    return 0;
 }
 
 uint32_t __Arch_APICall_5(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e)

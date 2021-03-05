@@ -11,7 +11,7 @@
 
 extern uint32_t createPartition(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
 extern uint32_t countToMap(uint32_t, uint32_t);
-extern uint32_t prepare(uint32_t, uint32_t, uint32_t, uint32_t);
+extern uint32_t prepare(uint32_t, uint32_t, uint32_t);
 extern uint32_t addVAddr(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
 extern uint32_t get_int_state(uint32_t);
 extern uint32_t set_int_state(uint32_t);
