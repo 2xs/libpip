@@ -48,7 +48,7 @@
 #define Pip_RemoveVAddr(a, b)               __Arch_APICall(REMOVEVADDR, 2, a, b)
 #define Pip_MappedInChild(a)                __Arch_APICall(MAPPEDINCHILD, 1, a)
 #define Pip_DeletePartition(a)              __Arch_APICall(DELETEPARTITION, 1, a)
-#define Pip_Collect(a)                      __Arch_APICall(COLLECT, 1, a)
+#define Pip_Collect(a, b)                   __Arch_APICall(COLLECT, 2, a, b)
 #define Pip_Yield(a, b, c, d, e)            __Arch_APICall(YIELD, 5, a, b, c, d, e)
 
 /* Wrappers */
