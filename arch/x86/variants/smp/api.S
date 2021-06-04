@@ -36,7 +36,7 @@
 __Arch_APICall_%1:
     push ebp
     mov ebp, esp
-    
+
     ; Prepare for SYSENTER
     mov ecx, ebp
     mov edx, sysret_ep
@@ -46,7 +46,7 @@ __Arch_APICall_%1:
 sysret_ep:
     leave
     ret
-   
+
 APICALL 0
 APICALL 1
 APICALL 2

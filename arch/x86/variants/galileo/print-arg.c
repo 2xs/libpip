@@ -43,6 +43,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include "galileo-support.h"
+
 uint32_t buffer[64]; // temporary buffer for benchmarking
 
 /**
@@ -58,6 +59,7 @@ void krn_puts(char *c)
        galileoSerialPrintc(c[i++]);
    }
 }
+
 uint32_t perfHighBegin;
 uint32_t perfLowBegin;
 uint32_t perfHighEnd;
@@ -104,7 +106,6 @@ void displayTime()
     DEBUGDEC(resLow);
     DEBUGRAW(" cycles\n");
 }
-
 
 void printchar(char **str, int c)
 {
@@ -196,6 +197,7 @@ int printi(char **out, int i, int b, int sg, int width, int pad, int letbase)
 
 	return pc + prints (out, s, width, pad);
 }
+
 int print( char **out, const char *format, va_list args )
 {
 	register int width, pad;
@@ -275,7 +277,6 @@ int sprintf(char *out, const char *format, ...)
         va_start( args, format );
         return print( &out, format, args );
 }
-
 
 int snprintf( char *buf, unsigned int count, const char *format, ... )
 {
