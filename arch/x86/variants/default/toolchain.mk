@@ -1,9 +1,9 @@
 # Toolchain
 
-CC=i386-elf-gcc
-LD=i386-elf-ld
-AS=i386-elf-gcc
-AR=i386-elf-ar
+CC=gcc
+LD=ld
+AS=gcc
+AR=ar
 
 # C flags
 CFLAGS=-c -ffreestanding -nostdlib -Wall -Werror -Wextra -fno-builtin -Wno-unused-parameter -Wno-unused-variable -m32 -fno-caller-saves -fno-stack-protector -fno-pic -no-pie -O2
