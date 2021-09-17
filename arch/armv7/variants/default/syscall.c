@@ -43,7 +43,7 @@ uint32_t createPartition(uint32_t a, uint32_t b, uint32_t c,
 	register uint32_t r4 asm("r4") = e;
 
 	asm volatile
-		(
+	(
 		 "svc #0"
 		 : "=r" (r0)
 		 : "0"  (r0),
@@ -52,7 +52,7 @@ uint32_t createPartition(uint32_t a, uint32_t b, uint32_t c,
 		 "r"  (r3),
 		 "r"  (r4)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -63,13 +63,13 @@ uint32_t countToMap(uint32_t a, uint32_t b)
 	register uint32_t r1 asm("r1") = b;
 
 	asm volatile
-		(
+	(
 		 "svc #1"
 		 : "=r" (r0)
 		 : "0"  (r0),
 		 "r"  (r1)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -81,14 +81,14 @@ uint32_t prepare(uint32_t a, uint32_t b, uint32_t c)
 	register uint32_t r2 asm("r2") = c;
 
 	asm volatile
-		(
+	(
 		 "svc #2"
 		 : "=r" (r0)
 		 : "0"  (r0),
 		 "r"  (r1),
 		 "r"  (r2)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -104,7 +104,7 @@ uint32_t addVAddr(uint32_t a, uint32_t b, uint32_t c,
 	register uint32_t r5 asm("r5") = f;
 
 	asm volatile
-		(
+	(
 		 "svc #3"
 		 : "=r" (r0)
 		 : "0"  (r0),
@@ -114,7 +114,7 @@ uint32_t addVAddr(uint32_t a, uint32_t b, uint32_t c,
 		 "r"  (r4),
 		 "r"  (r5)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -124,12 +124,12 @@ uint32_t get_int_state(uint32_t a)
 	register uint32_t r0 asm("r0") = a;
 
 	asm volatile
-		(
+	(
 		 "svc #4"
 		 : "=r" (r0)
 		 : "0"  (r0)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -139,12 +139,12 @@ uint32_t set_int_state(uint32_t a)
 	register uint32_t r0 asm("r0") = a;
 
 	asm volatile
-		(
+	(
 		 "svc #5"
 		 : "=r" (r0)
 		 : "0"  (r0)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -155,13 +155,13 @@ uint32_t removeVAddr(uint32_t a, uint32_t b)
 	register uint32_t r1 asm("r1") = b;
 
 	asm volatile
-		(
+	(
 		 "svc #6"
 		 : "=r" (r0)
 		 : "0"  (r0),
 		 "r"  (r1)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -171,12 +171,12 @@ uint32_t mappedInChild(uint32_t a)
 	register uint32_t r0 asm("r0") = a;
 
 	asm volatile
-		(
+	(
 		 "svc #7"
 		 : "=r" (r0)
 		 : "0"  (r0)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -186,12 +186,12 @@ uint32_t deletePartition(uint32_t a)
 	register uint32_t r0 asm("r0") = a;
 
 	asm volatile
-		(
+	(
 		 "svc #8"
 		 : "=r" (r0)
 		 : "0"  (r0)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -202,13 +202,13 @@ uint32_t collect(uint32_t a, uint32_t b)
 	register uint32_t r1 asm("r1") = b;
 
 	asm volatile
-		(
+	(
 		 "svc #9"
 		 : "=r" (r0)
 		 : "0"  (r0),
 		 "r"  (r1)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -223,7 +223,7 @@ uint32_t yield(uint32_t a, uint32_t b, uint32_t c,
 	register uint32_t r4 asm("r4") = e;
 
 	asm volatile
-		(
+	(
 		 "svc #10"
 		 : "=r" (r0)
 		 : "0"  (r0),
@@ -232,7 +232,7 @@ uint32_t yield(uint32_t a, uint32_t b, uint32_t c,
 		 "r"  (r3),
 		 "r"  (r4)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
@@ -242,12 +242,12 @@ uint32_t serial_putchar(uint32_t a)
 	register uint32_t r0 asm("r0") = a;
 
 	asm volatile
-		(
+	(
 		 "svc #11"
 		 : "=r" (r0)
 		 : "0"  (r0)
 		 : "memory"
-		);
+	);
 
 	return r0;
 }
