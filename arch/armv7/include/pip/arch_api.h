@@ -31,23 +31,28 @@
 /*  knowledge of the CeCILL license and that you accept its terms.             */
 /*******************************************************************************/
 
-#ifndef __PIPCALL__
-#define __PIPCALL__
+#ifndef __APICALL_ARMV7__
+#define __APICALL_ARMV7__
 
-#define ARCH_INDEPENDANT    0
-#define ARCH_DEPENDANT      12
-/* Architecture-independant entries */
-#define CREATEPARTITION     (ARCH_INDEPENDANT)
-#define COUNTTOMAP          (ARCH_INDEPENDANT +  1)
-#define PREPARE             (ARCH_INDEPENDANT +  2)
-#define ADDVADDR            (ARCH_INDEPENDANT +  3)
-#define GET_INT_STATE       (ARCH_INDEPENDANT +  4)
-#define SET_INT_STATE       (ARCH_INDEPENDANT +  5)
-#define REMOVEVADDR         (ARCH_INDEPENDANT +  6)
-#define MAPPEDINCHILD       (ARCH_INDEPENDANT +  7)
-#define DELETEPARTITION     (ARCH_INDEPENDANT +  8)
-#define COLLECT             (ARCH_INDEPENDANT +  9)
-#define YIELD               (ARCH_INDEPENDANT + 10)
-#define SMPREQUEST          (ARCH_INDEPENDANT + 11)
+#include "pip/pipcall.h"
+#include "pip/api.h"
 
-#endif /* __PIPCALL__ */
+/* Declare all sub-__Arch_APICall methods from a single macro */
+#define __Arch_APICall(a, b, args...) __Arch_APICall_##b(a, args)
+
+/* Those functions are implemeted in apicall.c */
+uint32_t __Arch_APICall_0(uint32_t call);
+uint32_t __Arch_APICall_1(uint32_t call, uint32_t a);
+uint32_t __Arch_APICall_2(uint32_t call, uint32_t a, uint32_t b);
+uint32_t __Arch_APICall_3(uint32_t call, uint32_t a, uint32_t b, uint32_t c);
+uint32_t __Arch_APICall_4(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uint32_t d);
+uint32_t __Arch_APICall_5(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e);
+uint32_t __Arch_APICall_6(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f);
+
+/*
+ * TODO
+ */
+#define Pip_MapPageWrapper(source, partition, destination) \
+	Pip_MapPageWrapperFlags(source, partition, destination, 6)
+
+#endif /* __APICALL_ARMV7__ */

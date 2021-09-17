@@ -37,6 +37,6 @@
 
 void Pip_Debug_Putc(char c)
 {
-    while (!(Pip_Inb(SERIAL_PORT + 5) & 0x20));
-    Pip_Outb(SERIAL_PORT, c);
+	while (!(Pip_Inb(SERIAL_PORT + 5) & 0x20));
+	Pip_Outb(SERIAL_PORT, c);
 }

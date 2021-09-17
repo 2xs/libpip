@@ -31,25 +31,37 @@
 /*  knowledge of the CeCILL license and that you accept its terms.             */
 /*******************************************************************************/
 
-#ifndef __DEF_TIME_H__
-#define __DEF_TIME_H__
+#ifndef __CONTEXT_ARMV7__
+#define __CONTEXT_ARMV7__
 
 #include <stdint.h>
 
-/*!
- * \brief	Read the time stamp counter using the rdtsc instruction
- *
- * \param t	Where to store the number of cycles since the last CPU reset
- *
- * \return	The number of cycles since the last CPU reset
- */
-extern uint64_t time(uint64_t *t);
+typedef enum arm_ctxreg_e
+{
+	CTX_SP  ,
+	CTX_LR  ,
+	CTX_R0  ,
+	CTX_R1  ,
+	CTX_R2  ,
+	CTX_R3  ,
+	CTX_R4  ,
+	CTX_R5  ,
+	CTX_R6  ,
+	CTX_R7  ,
+	CTX_R8  ,
+	CTX_R9  ,
+	CTX_R10 ,
+	CTX_R11 ,
+	CTX_R12 ,
+	CTX_PC
+} arm_ctxreg_t;
 
-/*!
- * \brief	Print a 64-bits value
- *
- * \param	val The 64-bits value to print
- */
-extern void print64(uint64_t val);
+typedef struct user_ctx_s
+{
+	uint32_t spsr;
+	uint32_t reg[16];
+	uint32_t pipflags;
+	uint32_t valid;
+} user_ctx_t;
 
-#endif /* __DEF_TIME_H__ */
+#endif /* __CONTEXT_ARMV7__ */

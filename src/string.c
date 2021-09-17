@@ -33,7 +33,7 @@
 
 #include "pip/string.h"
 
-extern unsigned long strlen(const char* s)
+unsigned long strlen(const char* s)
 {
 	unsigned long i = 0;
 
@@ -45,7 +45,7 @@ extern unsigned long strlen(const char* s)
 	return i;
 }
 
-extern int strcmp(const char *s1, const char *s2)
+int strcmp(const char *s1, const char *s2)
 {
 	volatile int ret, i = 0;
 
@@ -66,10 +66,10 @@ extern int strcmp(const char *s1, const char *s2)
 	return ret;
 }
 
-extern void *memset(void *s, int c, unsigned long n)
+void *memset(void *s, int c, unsigned long n)
 {
 	volatile unsigned char * volatile t =
-			(volatile unsigned char * volatile) s;
+		(volatile unsigned char * volatile) s;
 	volatile unsigned long x;
 
 	for(x = 0; x < n; x++)
@@ -80,10 +80,10 @@ extern void *memset(void *s, int c, unsigned long n)
 	return s;
 }
 
-extern void *memcpy(void *dest, const void *src, unsigned long n)
+void *memcpy(void *dest, const void *src, unsigned long n)
 {
 	volatile unsigned char *tdest = (volatile unsigned char *) dest,
-			*tsrc = (volatile unsigned char *) src;
+		 *tsrc = (volatile unsigned char *) src;
 	unsigned long x;
 
 	if (dest != src)
@@ -97,7 +97,7 @@ extern void *memcpy(void *dest, const void *src, unsigned long n)
 	return dest;
 }
 
-extern int memcmp(const void *s1, const void *s2, unsigned long n)
+int memcmp(const void *s1, const void *s2, unsigned long n)
 {
 	const volatile unsigned char *ts1 = s1, *ts2 = s2;
 	register unsigned long x;

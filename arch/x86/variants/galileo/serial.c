@@ -38,6 +38,6 @@
 
 void Pip_Debug_Putc(char c)
 {
-    initGalileoSerial(DEBUG_SERIAL);
-    galileoSerialPrintc(c);
+	initGalileoSerial(DEBUG_SERIAL);
+	galileoSerialPrintc(c);
 }

@@ -36,7 +36,6 @@
  * \brief MMU early-boot configuration
  */
 #include <stdint.h>
-#include "pip/debug.h"
 
 #include "galileo-support.h"
 #include "pip/compat.h"
@@ -45,19 +44,16 @@ volatile uint16_t usIRQMask = 0xfffb;
 volatile uint32_t UART_PCI_Base = 0UL;
 volatile uint32_t UART_MMIO_Base = 0UL;
 
-
 void initGalileoSerial(uint32_t portnumber)
 {
-    if(galileoSerialPortInitialized == 0){
-        initGalileoUART(portnumber);
-        galileoSerialPortInitialized = 1;
-    }
+	if(galileoSerialPortInitialized == 0){
+		initGalileoUART(portnumber);
+		galileoSerialPortInitialized = 1;
+	}
 }
 
-
-
 void initGalileoUART(uint32_t portnumber)
- {
+{
 	volatile uint8_t divisor = 24;
 	volatile uint8_t output_data = 0x3 & 0xFB & 0xF7;
 	volatile uint8_t input_data = 0;
@@ -81,7 +77,7 @@ void initGalileoUART(uint32_t portnumber)
 	MMIO_write(base, R_UART_LCR, 1, output_data);
 
 	MMIO_write(base, R_UART_FCR, 1, (uint8_t)(B_UARY_FCR_TRFIFIE |
-		B_UARY_FCR_RESETRF | B_UARY_FCR_RESETTF | 0x30));
+				B_UARY_FCR_RESETRF | B_UARY_FCR_RESETTF | 0x30));
 
 	input_data = MMIO_read(base, R_UART_MCR, 1);
 	input_data |= BIT1;
@@ -92,42 +88,42 @@ void initGalileoUART(uint32_t portnumber)
 	MMIO_write(base, R_UART_LCR, 1, (uint8_t) (lcr & ~B_UARY_LCR_DLAB));
 
 	MMIO_write(base, R_UART_IER, 1, 0);
- }
+}
 
- /*-----------------------------------------------------------------------
-  * Serial port support functions
-  *------------------------------------------------------------------------
-  */
- void galileoSerialPrintc(char c)
- {
+/*-----------------------------------------------------------------------
+ * Serial port support functions
+ *------------------------------------------------------------------------
+ */
+void galileoSerialPrintc(char c)
+{
 	if (galileoSerialPortInitialized)
 	{
 		while((MMIO_read(UART_MMIO_Base, R_UART_LSR, 1) & B_UART_LSR_TXRDY) == 0);
-	 	MMIO_write(UART_MMIO_Base, R_UART_BAUD_THR, 1, c);
+		MMIO_write(UART_MMIO_Base, R_UART_BAUD_THR, 1, c);
 	}
- }
- /*-----------------------------------------------------------*/
+}
+/*-----------------------------------------------------------*/
 
- uint8_t galileoSerialGetc()
- {
+uint8_t galileoSerialGetc()
+{
 	uint8_t c = 0;
 	if (galileoSerialPortInitialized)
 	{
 		if((MMIO_read(UART_MMIO_Base, R_UART_LSR, 1) & B_UART_LSR_RXRDY) != 0)
-		 	c  = MMIO_read(UART_MMIO_Base, R_UART_BAUD_THR, 1);
+			c  = MMIO_read(UART_MMIO_Base, R_UART_BAUD_THR, 1);
 	}
-	  return c;
- }
- /*-----------------------------------------------------------*/
+	return c;
+}
+/*-----------------------------------------------------------*/
 
- void galileoSerialPrints(const char *string)
- {
+void galileoSerialPrints(const char *string)
+{
 	if (galileoSerialPortInitialized)
 	{
-	    while(*string)
-	    	galileoSerialPrintc(*string++);
+		while(*string)
+			galileoSerialPrintc(*string++);
 	}
 
 
- }
- /*-----------------------------------------------------------*/
+}
+/*-----------------------------------------------------------*/

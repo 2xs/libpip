@@ -32,31 +32,42 @@
 ###############################################################################
 
 # Architecture
-ARCH=x86
-VARIANT=default
+ARCH        = x86
+VARIANT     = default
 
 # Directories
-SRCDIR=src arch/$(ARCH)/ arch/$(ARCH)/variants/$(VARIANT)/
-INCDIR=include arch/$(ARCH)/include/ arch/$(ARCH)/variants/$(VARIANT)/include/
+SRCDIR      = src
+SRCDIR     += arch/$(ARCH)
+SRCDIR     += arch/$(ARCH)/variants/$(VARIANT)
+
+INCDIR      = include
+INCDIR     += arch/$(ARCH)/include
+INCDIR     += arch/$(ARCH)/variants/$(VARIANT)/include
 
 # Generate source and object list
-SOURCES=$(foreach dir, ${SRCDIR}, $(wildcard $(dir)/*.c))
-OBJ=$(SOURCES:.c=.o)
-ASOURCES=$(foreach dir, ${SRCDIR}, $(wildcard $(dir)/*.S))
-AOBJ=$(ASOURCES:.S=.o)
+SOURCES     = $(foreach dir, ${SRCDIR}, $(wildcard $(dir)/*.c))
+OBJ         = $(SOURCES:.c=.o)
+
+ASOURCES    = $(foreach dir, ${SRCDIR}, $(wildcard $(dir)/*.S))
+AOBJ        = $(ASOURCES:.S=.o)
 
 # Lib directory and output file
-LIBDIR=lib
-LIB=$(LIBDIR)/libpip.a
+LIBDIR      = lib
+LIB         = $(LIBDIR)/libpip.a
+
+# Documentation directory
+DOCDIR      = doc
 
 include arch/$(ARCH)/variants/$(VARIANT)/toolchain.mk
-# Add define for variant and architecture
-ARCHDEF=$(shell echo $(ARCH) | tr a-z A-Z)
-VARIANTDEF=$(shell echo $(VARIANT) | tr a-z A-Z)
-CFLAGS+=-DARCH_$(ARCHDEF)
-CFLAGS+=-DVARIANT_$(VARIANTDEF)
 
-.PHONY: info all
+# Add define for variant and architecture
+ARCHDEF     = $(shell echo $(ARCH) | tr a-z A-Z)
+VARIANTDEF  = $(shell echo $(VARIANT) | tr a-z A-Z)
+
+CFLAGS     += -DARCH_$(ARCHDEF)
+CFLAGS     += -DVARIANT_$(VARIANTDEF)
+
+.PHONY: info all doc
 
 all: info $(LIBDIR) $(LIB)
 
@@ -64,10 +75,14 @@ info:
 	@echo Building LibPip2 for architecture $(ARCH), variant $(VARIANT).
 
 clean:
-	rm -rf $(LIBDIR) $(OBJ) $(AOBJ)
+	rm -rf $(LIBDIR) $(DOCDIR) $(OBJ) $(AOBJ)
 
 $(LIBDIR):
 	mkdir -p $(LIBDIR)
+
+doc:
+	mkdir -p $(DOCDIR)
+	doxygen
 
 $(LIB): $(OBJ) $(AOBJ)
 	$(AR) $(ARFLAGS) $@ $^

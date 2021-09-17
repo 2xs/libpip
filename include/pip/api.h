@@ -36,6 +36,7 @@
 
 #include <stdint.h>
 #include "pip/arch_api.h"
+#include "pip/context.h"
 
 /* Raw API calls */
 
@@ -53,7 +54,55 @@
 
 /* Wrappers */
 
-void Pip_Debug_Putc(char c);
-uint32_t Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination);
+/*!
+ * \brief Map a page at the "source" address to the "destination" address in the "partition" partition
+ * \param source Address of the page to map to the destination partition
+ * \param partition Partition descriptor of the destination partition
+ * \param destination Address where to map the page in the destination partition
+ * \return 1 if the function succeed, 0 otherwise
+ */
+uint32_t Pip_MapPageWrapperFlags(uint32_t source, uint32_t partition, uint32_t destination, uint32_t flags);
 
-#endif
+/*!
+ * \brief Print a character to the serial port
+ * \param c The character to print to the serial port
+ */
+void Pip_Debug_Putc(char c);
+
+/*!
+ * TODO
+ */
+uint64_t time(uint64_t *t);
+
+/*!
+ * \brief Context structure allocator
+ * \return A pointer to a newly allocated context structure
+ */
+user_ctx_t *Pip_AllocContext(void);
+
+/*!
+ * \deprecated Here for compatibility reasons. Use Pip_Yield() function instead
+ * \brief Dispatch an interrupt to a child partition or to its parent
+ * \param calleePartDescVAddr The callee partition descriptor virtual address
+ * \param calleeVidtVAddr The callee VIDT virtual address
+ * \param userTargetInterrupt The user target interrupt number
+ */
+void Pip_Notify(uint32_t calleePartDescVAddr, uint32_t calleeVidtVAddr, uint32_t userTargetInterrupt);
+
+/*!
+ * \deprecated Here for compatibility reasons. Use Pip_Yield() function instead
+ * \brief Activate another partition and restore its execution context
+ */
+void Pip_Resume(void);
+
+/*!
+ * \brief Register a handler in the current VIDT
+ * \param handlerContext A pointer to the context structure of the handler
+ * \param interruptNumber The interrupt number to handle
+ * \param handlerAddress The address of the handler
+ * \param stackAddress The address of the stack
+ * \param pipflags The PIP flags
+ */
+void Pip_RegisterInterrupt(user_ctx_t *handlerContext, uint32_t interruptNumber, uint32_t handlerAddress, uint32_t stackAddress, uint32_t pipFlags);
+
+#endif /* __API__ */

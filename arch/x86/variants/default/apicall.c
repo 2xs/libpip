@@ -111,65 +111,69 @@ uint32_t __Arch_APICall_2(uint32_t call, uint32_t a, uint32_t b)
 		case COLLECT:
 			callptr = collect;
 			break;
-    		default:
+		default:
 			return 0;
 	}
 
 	return callptr(a, b);
 }
 
-uint32_t __Arch_APICall_3(uint32_t call, uint32_t a, uint32_t b, uint32_t c)
+uint32_t __Arch_APICall_3(uint32_t call, uint32_t a, uint32_t b,
+	uint32_t c)
 {
-    apicall_3 callptr;
+	apicall_3 callptr;
 
-    switch(call)
-    {
-        case PREPARE:
-            callptr = prepare;
-            break;
-        default:
-            return 0;
-    }
+	switch(call)
+	{
+		case PREPARE:
+			callptr = prepare;
+			break;
+		default:
+			return 0;
+	}
 
-    return callptr(a, b, c);
+	return callptr(a, b, c);
 }
 
-uint32_t __Arch_APICall_4(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uint32_t d)
+uint32_t __Arch_APICall_4(uint32_t call, uint32_t a, uint32_t b,
+	uint32_t c, uint32_t d)
 {
-    return 0;
+	return 0;
 }
 
-uint32_t __Arch_APICall_5(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e)
+uint32_t __Arch_APICall_5(uint32_t call, uint32_t a, uint32_t b,
+	uint32_t c, uint32_t d, uint32_t e)
 {
-    apicall_5 callptr;
+	apicall_5 callptr;
 
-    switch(call)
-    {
-        case CREATEPARTITION:
-            callptr = createPartition;
-            break;
-        case YIELD:
-            callptr = yield;
-            break;
-        default:
-            return 0;
-    }
+	switch(call)
+	{
+		case CREATEPARTITION:
+			callptr = createPartition;
+			break;
+		case YIELD:
+			callptr = yield;
+			break;
+		default:
+			return 0;
+	}
 
-    return callptr(a, b, c, d, e);
+	return callptr(a, b, c, d, e);
 }
 
-uint32_t __Arch_APICall_6(uint32_t call, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f)
+uint32_t __Arch_APICall_6(uint32_t call, uint32_t a, uint32_t b,
+	uint32_t c, uint32_t d, uint32_t e, uint32_t f)
 {
-    apicall_6 callptr;
+	apicall_6 callptr;
 
-    switch(call)
-    {
-        case ADDVADDR:
-            callptr = addVAddr;
-            break;
-        default:
-            return 0;
-    }
+	switch(call)
+	{
+		case ADDVADDR:
+			callptr = addVAddr;
+			break;
+		default:
+			return 0;
+	}
 
-    return callptr(a, b, c, d, e, f);
+	return callptr(a, b, c, d, e, f);
 }

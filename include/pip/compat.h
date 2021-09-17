@@ -71,4 +71,5 @@
 /* Interrupt management */
 #define registerInterrupt                   Pip_RegisterInterrupt
 #define initVidt                            Pip_InitVIDT
-#endif
+
+#endif /* __LIBPIP_1_COMPAT__ */

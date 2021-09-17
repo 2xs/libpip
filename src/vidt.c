@@ -38,7 +38,7 @@
 #include "pip/paging.h"
 #include "pip/vidt.h"
 
-extern user_ctx_t *Pip_AllocContext(void)
+user_ctx_t *Pip_AllocContext(void)
 {
 	static uint32_t availableBytes = sizeof(user_ctx_t);
 	static uint32_t contextAddress = 0;
@@ -58,9 +58,8 @@ extern user_ctx_t *Pip_AllocContext(void)
 	return (user_ctx_t *) contextAddress;
 }
 
-extern void Pip_Notify(uint32_t calleePartDescVAddr,
-		       uint32_t calleeVidtVAddr,
-		       uint32_t userTargetInterrupt)
+void Pip_Notify(uint32_t calleePartDescVAddr, uint32_t calleeVidtVAddr,
+		uint32_t userTargetInterrupt)
 {
 	VIDT[1023] = (user_ctx_t *) calleePartDescVAddr;
 
@@ -72,24 +71,7 @@ extern void Pip_Notify(uint32_t calleePartDescVAddr,
 	Pip_Yield(calleePartDescVAddr, userTargetInterrupt, 70, 0, 0);
 }
 
-extern void Pip_Resume(void)
+void Pip_Resume(void)
 {
 	Pip_Yield((uint32_t) VIDT[1023], 70, 255, 0, 0);
-}
-
-extern void Pip_RegisterInterrupt(user_ctx_t *handlerContext,
-				  uint32_t interruptNumber,
-				  uint32_t handlerAddress,
-				  uint32_t stackAddress,
-				  uint32_t pipFlags)
-{
-	handlerContext->valid    = 0;
-	handlerContext->eip      = handlerAddress;
-	handlerContext->pipflags = pipFlags;
-	handlerContext->eflags   = 0x2;
-	handlerContext->regs.ebp = stackAddress + PAGE_SIZE;
-	handlerContext->regs.esp = stackAddress + PAGE_SIZE;
-	handlerContext->valid    = 1;
-
-	VIDT[interruptNumber] = handlerContext;
 }

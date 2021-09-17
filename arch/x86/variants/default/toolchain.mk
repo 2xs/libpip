@@ -32,18 +32,40 @@
 ###############################################################################
 
 # Toolchain
-
-CC=gcc
-LD=ld
-AS=gcc
-AR=ar
+CC = gcc
+LD = ld
+AS = gcc
+AR = ar
 
 # C flags
-CFLAGS=-c -ffreestanding -nostdlib -Wall -Werror -Wextra -fno-builtin -Wno-unused-parameter -Wno-unused-variable -m32 -fno-caller-saves -fno-stack-protector -fno-pic -no-pie -O2
-CFLAGS+=$(foreach dir, $(INCDIR), -I$(dir))
+CFLAGS   = -c
+CFLAGS  += -ffreestanding
+CFLAGS  += -nostdlib
+CFLAGS  += -Wall
+CFLAGS  += -Werror
+CFLAGS  += -Wextra
+CFLAGS  += -fno-builtin
+CFLAGS  += -Wno-unused-parameter
+CFLAGS  += -Wno-unused-variable
+CFLAGS  += -m32
+CFLAGS  += -fno-caller-saves
+CFLAGS  += -fno-stack-protector
+CFLAGS  += -fno-pic
+CFLAGS  += -no-pie
+CFLAGS  += -O2
+CFLAGS  += $(foreach dir, $(INCDIR), -I$(dir))
 
 # Assembler flags
-ASFLAGS=-m32 -c -I. -I./include -fomit-frame-pointer --freestanding -nostdlib -fno-stack-protector -fno-pic -no-pie
+ASFLAGS  = -m32
+ASFLAGS += -c
+ASFLAGS += -I.
+ASFLAGS += -I./include
+ASFLAGS += -fomit-frame-pointer
+ASFLAGS += --freestanding
+ASFLAGS += -nostdlib
+ASFLAGS += -fno-stack-protector
+ASFLAGS += -fno-pic
+ASFLAGS += -no-pie
 
 # Archiver flags
-ARFLAGS=rcs
+ARFLAGS  = rcs

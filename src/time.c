@@ -33,53 +33,17 @@
 
 #include <stdint.h>
 
-#include "pip/stdio.h"
-#include "pip/time.h"
-#include "pip/api.h"
+// TODO
+uint64_t __clock_gettime(void);
 
-static uint64_t __rdtsc(void)
+uint64_t time(uint64_t *t)
 {
-	uint32_t cyclesLow, cyclesHigh;
-
-	asm volatile
-	(
-		"rdtsc;"
-		"mov %%edx, %0;"
-		"mov %%eax, %1"
-		: "=r" (cyclesHigh), "=r" (cyclesLow)
-		:: "eax", "edx"
-	);
-
-	return (((uint64_t) cyclesHigh << 32) | cyclesLow);
-}
-
-extern uint64_t time(uint64_t *t)
-{
-	uint64_t timestamp = __rdtsc();
+	uint64_t timespec = __clock_gettime();
 
 	if (t)
 	{
-		*t = timestamp;
+		*t = timespec;
 	}
 
-	return timestamp;
-}
-
-extern void print64(uint64_t val)
-{
-	static char buf[34] = { [0 ... 33] = 0 };
-	unsigned int hbase = 10;
-	char* out = &buf[33];
-	uint64_t hval = val;
-
-	do
-	{
-		*out = "0123456789"[hval % hbase];
-		--out;
-		hval /= hbase;
-	} while(hval);
-
-	*out-- = ' ', *out = ' ';
-
-	puts(out);
+	return timespec;
 }

@@ -31,23 +31,28 @@
 /*  knowledge of the CeCILL license and that you accept its terms.             */
 /*******************************************************************************/
 
-#ifndef __PIPCALL__
-#define __PIPCALL__
+#ifndef __VIDT__
+#define __VIDT__
 
-#define ARCH_INDEPENDANT    0
-#define ARCH_DEPENDANT      12
-/* Architecture-independant entries */
-#define CREATEPARTITION     (ARCH_INDEPENDANT)
-#define COUNTTOMAP          (ARCH_INDEPENDANT +  1)
-#define PREPARE             (ARCH_INDEPENDANT +  2)
-#define ADDVADDR            (ARCH_INDEPENDANT +  3)
-#define GET_INT_STATE       (ARCH_INDEPENDANT +  4)
-#define SET_INT_STATE       (ARCH_INDEPENDANT +  5)
-#define REMOVEVADDR         (ARCH_INDEPENDANT +  6)
-#define MAPPEDINCHILD       (ARCH_INDEPENDANT +  7)
-#define DELETEPARTITION     (ARCH_INDEPENDANT +  8)
-#define COLLECT             (ARCH_INDEPENDANT +  9)
-#define YIELD               (ARCH_INDEPENDANT + 10)
-#define SMPREQUEST          (ARCH_INDEPENDANT + 11)
+#include <stdint.h>
+#include "pip/context.h"
 
-#endif /* __PIPCALL__ */
+/*!
+ * \def VIDT_ADDR
+ * \brief The VIDT address
+ */
+#define VIDT_VADDR 0x3ffff000
+
+/*!
+ * \def PAGE_SIZE
+ * \brief The page size
+ */
+#define PAGE_SIZE 4096
+
+/*!
+ * \def VIDT
+ * \brief The VIDT of the current partition
+ */
+#define VIDT ((user_ctx_t **) VIDT_VADDR)
+
+#endif /* __VIDT__ */

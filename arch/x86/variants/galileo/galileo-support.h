@@ -128,116 +128,116 @@ static uint32_t galileoSerialPortInitialized = FALSE;
 #define EC_BASE    0xE0000000 /* Base of MMConfig space */
 #define MMCONFIG_BASE	EC_BASE
 #define MMIO_PCI_ADDRESS(bus,dev,fn,reg) ( \
-        (EC_BASE) + \
-        ((bus) << 20) + \
-        ((dev) << 15) + \
-        ((fn)  << 12) + \
-        (reg))
+		(EC_BASE) + \
+		((bus) << 20) + \
+		((dev) << 15) + \
+		((fn)  << 12) + \
+		(reg))
 
 //---------------------------------------------------------------------
 // MMIO read/write/set/clear/modify macros
 //---------------------------------------------------------------------
 
 #define MMIO_read(base, offset, size) ({ \
-        volatile uint32_t a = (base) + (offset); \
-        volatile uint64_t v; \
-        switch (size) { \
-        case 1: \
-        v = (uint8_t)(*((uint8_t *)a)); \
-        break; \
-        case 2: \
-        v = (uint16_t)(*((uint16_t *)a)); \
-        break; \
-        case 4: \
-        v = (uint32_t)(*((uint32_t *)a)); \
-        break; \
-        case 8: \
-        v = (uint64_t)(*((uint64_t *)a)); \
-        break; \
-        default: \
-        for(;;); \
-        } \
-        v; \
-        })
+		volatile uint32_t a = (base) + (offset); \
+		volatile uint64_t v; \
+		switch (size) { \
+		case 1: \
+		v = (uint8_t)(*((uint8_t *)a)); \
+		break; \
+		case 2: \
+		v = (uint16_t)(*((uint16_t *)a)); \
+		break; \
+		case 4: \
+		v = (uint32_t)(*((uint32_t *)a)); \
+		break; \
+		case 8: \
+		v = (uint64_t)(*((uint64_t *)a)); \
+		break; \
+		default: \
+		for(;;); \
+		} \
+		v; \
+		})
 
 // No cache bypass necessary -- MTRRs should handle this
 #define MMIO_write(base, offset, size, value) { \
-    volatile uint32_t a = (base) + (offset); \
-    switch (size) { \
-        case 1: \
-                *((uint8_t *)a) = (uint8_t)(value); \
-        break; \
-        case 2: \
-                *((uint16_t *)a) = (uint16_t)(value); \
-        break; \
-        case 4: \
-                *((uint32_t *)a) = (uint32_t)(value); \
-        break; \
-        case 8: \
-                *((uint64_t *)a) = (uint64_t)(value); \
-        break; \
-        default: \
-                 for(;;); \
-    } \
+	volatile uint32_t a = (base) + (offset); \
+	switch (size) { \
+		case 1: \
+			*((uint8_t *)a) = (uint8_t)(value); \
+		break; \
+		case 2: \
+			*((uint16_t *)a) = (uint16_t)(value); \
+		break; \
+		case 4: \
+			*((uint32_t *)a) = (uint32_t)(value); \
+		break; \
+		case 8: \
+			*((uint64_t *)a) = (uint64_t)(value); \
+		break; \
+		default: \
+			 for(;;); \
+	} \
 }
 
 #define MMIO_set(base, offset, size, smask) { \
-    volatile uint32_t a = (base) + (offset); \
-    switch (size) { \
-        case 1: \
-                *((uint8_t *)a) = (uint8_t)((*((uint8_t *)a)) | (smask)); \
-        break; \
-        case 2: \
-                *((uint16_t *)a) = (uint16_t)((*((uint16_t *)a)) | (smask)); \
-        break; \
-        case 4: \
-                *((uint32_t *)a) = (uint32_t)((*((uint32_t *)a)) | (smask)); \
-        break; \
-        case 8: \
-                *((uint64_t *)a) = (uint64_t)((*((uint64_t *)a)) | (smask)); \
-        break; \
-    } \
+	volatile uint32_t a = (base) + (offset); \
+	switch (size) { \
+		case 1: \
+			*((uint8_t *)a) = (uint8_t)((*((uint8_t *)a)) | (smask)); \
+		break; \
+		case 2: \
+			*((uint16_t *)a) = (uint16_t)((*((uint16_t *)a)) | (smask)); \
+		break; \
+		case 4: \
+			*((uint32_t *)a) = (uint32_t)((*((uint32_t *)a)) | (smask)); \
+		break; \
+		case 8: \
+			*((uint64_t *)a) = (uint64_t)((*((uint64_t *)a)) | (smask)); \
+		break; \
+	} \
 }
 
 #define MMIO_clear(base, offset, size, cmask) { \
-    volatile uint32_t a = (base) + (offset); \
-    switch (size) { \
-        case 1: \
-                *((uint8_t *)a) = (uint8_t)((*((uint8_t *)a) & ~(cmask))); \
-        break; \
-        case 2: \
-                *((uint16_t *)a) = (uint16_t)((*((uint16_t *)a) & ~(cmask))); \
-        break; \
-        case 4: \
-                *((uint32_t *)a) = (uint32_t)((*((uint32_t *)a) & ~(cmask))); \
-        break; \
-        case 8: \
-                *((uint64_t *)a) = (uint64_t)((*((uint64_t *)a) & ~(cmask))); \
-        break; \
-    } \
+	volatile uint32_t a = (base) + (offset); \
+	switch (size) { \
+		case 1: \
+			*((uint8_t *)a) = (uint8_t)((*((uint8_t *)a) & ~(cmask))); \
+		break; \
+		case 2: \
+			*((uint16_t *)a) = (uint16_t)((*((uint16_t *)a) & ~(cmask))); \
+		break; \
+		case 4: \
+			*((uint32_t *)a) = (uint32_t)((*((uint32_t *)a) & ~(cmask))); \
+		break; \
+		case 8: \
+			*((uint64_t *)a) = (uint64_t)((*((uint64_t *)a) & ~(cmask))); \
+		break; \
+	} \
 }
 
 #define MMIO_modify(base, offset, size, cmask, smask) { \
-    volatile uint32_t a = (base) + (offset); \
-    switch (size) { \
-        case 1: \
-                *((uint8_t *)a) = (uint8_t)((*((uint8_t *)a) & ~(cmask)) | (smask)); \
-        break; \
-        case 2: \
-                *((uint16_t *)a) = (uint16_t)((*((uint16_t *)a) & ~(cmask)) | (smask)); \
-        break; \
-        case 4: \
-                *((uint32_t *)a) = (uint32_t)((*((uint32_t *)a) & ~(cmask)) | (smask)); \
-        break; \
-        case 8: \
-                *((uint64_t *)a) = (uint64_t)((*((uint64_t *)a) & ~(cmask)) | (smask)); \
-        break; \
-    } \
+	volatile uint32_t a = (base) + (offset); \
+	switch (size) { \
+		case 1: \
+			*((uint8_t *)a) = (uint8_t)((*((uint8_t *)a) & ~(cmask)) | (smask)); \
+		break; \
+		case 2: \
+			*((uint16_t *)a) = (uint16_t)((*((uint16_t *)a) & ~(cmask)) | (smask)); \
+		break; \
+		case 4: \
+			*((uint32_t *)a) = (uint32_t)((*((uint32_t *)a) & ~(cmask)) | (smask)); \
+		break; \
+		case 8: \
+			*((uint64_t *)a) = (uint64_t)((*((uint64_t *)a) & ~(cmask)) | (smask)); \
+		break; \
+	} \
 
 
-//---------------------------------------------------------------------
-// 82C54 PIT (programmable interval timer) definitions
-//---------------------------------------------------------------------
+	//---------------------------------------------------------------------
+	// 82C54 PIT (programmable interval timer) definitions
+	//---------------------------------------------------------------------
 
 #define GATE_CONTROL    0x61
 #define CHANNEL2_DATA   0x42

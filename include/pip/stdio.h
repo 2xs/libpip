@@ -31,48 +31,41 @@
 /*  knowledge of the CeCILL license and that you accept its terms.             */
 /*******************************************************************************/
 
-#ifndef __DEF_STDIO_H__
-#define __DEF_STDIO_H__
+#ifndef __STDIO_H__
+#define __STDIO_H__
 
 #include "pip/api.h"
 
-#define putchar(c)	Pip_Debug_Putc(c)
+#define putchar(c) Pip_Debug_Putc(c)
 
 /*!
- * \brief	Print a string to the serial link
- *
- * \param s	The string to print to the serial link
+ * \brief Print a string to the serial link
+ * \param s The string to print to the serial link
  */
-extern void puts(const char *s);
+void puts(const char *s);
 
 /*!
- * \brief		Print a formatted string to the serial link
- *
- * \param format	The formatted string to print to the serial link
- *
- * \return		The number of printed characters
+ * \brief Print a formatted string to the serial link
+ * \param format The formatted string to print to the serial link
+ * \return The number of printed characters
  */
-extern int printf(const char *format, ...);
+int printf(const char *format, ...);
 
 /*!
- * \brief		Print a formatted string into str
- *
- * \param str		Where to print the formatted string
- * \param format	The formatted string to print
- *
- * \return		The number of printed characters
+ * \brief Print a formatted string into str
+ * \param str Where to print the formatted string
+ * \param format The formatted string to print
+ * \return The number of printed characters
  */
-extern int sprintf(char *out, const char *format, ...);
+int sprintf(char *out, const char *format, ...);
 
 /*!
- * \brief		Print a formatted string of size size into str
- *
- * \param str		Where to print the formatted string
- * \param size		The number of characters to copy
- * \param format	The formatted string to print
- *
- * \return		The number of printed characters
+ * \brief Print a formatted string of size size into str
+ * \param str Where to print the formatted string
+ * \param size The number of characters to copy
+ * \param format The formatted string to print
+ * \return The number of printed characters
  */
-extern int snprintf(char *buf, unsigned int count, const char *format, ...);
+int snprintf(char *buf, unsigned int count, const char *format, ...);
 
-#endif /* __DEF_STDIO_H__ */
+#endif /* __STDIO_H__ */

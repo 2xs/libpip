@@ -38,7 +38,6 @@
 
 #include "print-arg.h"
 #include "pip/api.h"
-#include "pip/debug.h"
 #include "pip/compat.h"
 #include <stdint.h>
 #include <stdarg.h>
@@ -53,11 +52,11 @@ uint32_t buffer[64]; // temporary buffer for benchmarking
  */
 void krn_puts(char *c)
 {
-   int i = 0;
-   while (c[i])
-   {
-       galileoSerialPrintc(c[i++]);
-   }
+	int i = 0;
+	while (c[i])
+	{
+		galileoSerialPrintc(c[i++]);
+	}
 }
 
 uint32_t perfHighBegin;
@@ -67,44 +66,44 @@ uint32_t perfLowEnd;
 
 void counterUpdate(uint32_t begin)
 {
-    uint32_t bufHigh, bufLow;
-    __asm volatile(" \
-                   MOV $0, %%ECX; \
-                   RDTSC; \
-                   MOV %%EAX, %0; \
-                   MOV %%EDX, %1; "
-                   : "=r" (bufLow), "=r" (bufHigh));
+	uint32_t bufHigh, bufLow;
+	__asm volatile(" \
+			MOV $0, %%ECX; \
+			RDTSC; \
+			MOV %%EAX, %0; \
+			MOV %%EDX, %1; "
+			: "=r" (bufLow), "=r" (bufHigh));
 
-    if(begin) {
-        perfLowBegin = bufLow;
-        perfHighBegin = bufHigh;
-    } else {
-        perfLowEnd = bufLow;
-        perfHighEnd = bufHigh;
-    }
+	if(begin) {
+		perfLowBegin = bufLow;
+		perfHighBegin = bufHigh;
+	} else {
+		perfLowEnd = bufLow;
+		perfHighEnd = bufHigh;
+	}
 
-    return;
+	return;
 }
 
 void displayTime()
 {
-    uint32_t resHigh, resLow;
+	uint32_t resHigh, resLow;
 
-    uint32_t carry;
-    if(perfLowEnd > perfLowBegin)
-    {
-        resLow = perfLowEnd - perfLowBegin;
-        carry = 0;
-    } else {
-        resLow = perfLowEnd + (0xFFFFFFFF - perfLowBegin);
-        carry = 1;
-    }
+	uint32_t carry;
+	if(perfLowEnd > perfLowBegin)
+	{
+		resLow = perfLowEnd - perfLowBegin;
+		carry = 0;
+	} else {
+		resLow = perfLowEnd + (0xFFFFFFFF - perfLowBegin);
+		carry = 1;
+	}
 
-    resHigh = perfHighEnd - perfHighBegin - carry;
+	resHigh = perfHighEnd - perfHighBegin - carry;
 
-    DEBUGDEC(resHigh);
-    DEBUGDEC(resLow);
-    DEBUGRAW(" cycles\n");
+	printf("%d", resHigh);
+	printf("%d", resLow);
+	printf(" cycles\n");
 }
 
 void printchar(char **str, int c)
@@ -252,7 +251,7 @@ int print( char **out, const char *format, va_list args )
 			}
 		}
 		else {
-		out:
+out:
 			printchar (out, *format);
 			++pc;
 		}
@@ -264,26 +263,26 @@ int print( char **out, const char *format, va_list args )
 
 int printf(const char *format, ...)
 {
-        va_list args;
+	va_list args;
 
-        va_start( args, format );
-        return print( 0, format, args );
+	va_start( args, format );
+	return print( 0, format, args );
 }
 
 int sprintf(char *out, const char *format, ...)
 {
-        va_list args;
+	va_list args;
 
-        va_start( args, format );
-        return print( &out, format, args );
+	va_start( args, format );
+	return print( &out, format, args );
 }
 
 int snprintf( char *buf, unsigned int count, const char *format, ... )
 {
-        va_list args;
+	va_list args;
 
-        ( void ) count;
+	( void ) count;
 
-        va_start( args, format );
-        return print( &buf, format, args );
+	va_start( args, format );
+	return print( &buf, format, args );
 }

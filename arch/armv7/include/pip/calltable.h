@@ -31,23 +31,27 @@
 /*  knowledge of the CeCILL license and that you accept its terms.             */
 /*******************************************************************************/
 
-#ifndef __PIPCALL__
-#define __PIPCALL__
+#ifndef __CALLTABLE_ARMV7__
+#define __CALLTABLE_ARMV7__
 
-#define ARCH_INDEPENDANT    0
-#define ARCH_DEPENDANT      12
-/* Architecture-independant entries */
-#define CREATEPARTITION     (ARCH_INDEPENDANT)
-#define COUNTTOMAP          (ARCH_INDEPENDANT +  1)
-#define PREPARE             (ARCH_INDEPENDANT +  2)
-#define ADDVADDR            (ARCH_INDEPENDANT +  3)
-#define GET_INT_STATE       (ARCH_INDEPENDANT +  4)
-#define SET_INT_STATE       (ARCH_INDEPENDANT +  5)
-#define REMOVEVADDR         (ARCH_INDEPENDANT +  6)
-#define MAPPEDINCHILD       (ARCH_INDEPENDANT +  7)
-#define DELETEPARTITION     (ARCH_INDEPENDANT +  8)
-#define COLLECT             (ARCH_INDEPENDANT +  9)
-#define YIELD               (ARCH_INDEPENDANT + 10)
-#define SMPREQUEST          (ARCH_INDEPENDANT + 11)
+#include "pip/pipcall.h"
+#include "pip/api.h"
+#include "pip/types.h"
 
-#endif /* __PIPCALL__ */
+/* The function declared here is implemented in syscall.c */
+
+uint32_t createPartition(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t countToMap(uint32_t, uint32_t);
+uint32_t prepare(uint32_t, uint32_t, uint32_t);
+uint32_t addVAddr(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t get_int_state(uint32_t);
+uint32_t set_int_state(uint32_t);
+uint32_t removeVAddr(uint32_t, uint32_t);
+uint32_t mappedInChild(uint32_t);
+uint32_t deletePartition(uint32_t);
+uint32_t collect(uint32_t, uint32_t);
+uint32_t yield(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+/* TODO */
+uint32_t serial_putchar(uint32_t);
+
+#endif /* __CALLTABLE_ARMV7__ */

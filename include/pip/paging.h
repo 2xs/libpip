@@ -37,41 +37,35 @@
 #include <stdint.h>
 
 /*!
- * \def			PGSIZE
- *
- * \brief		The page size
+ * \def PGSIZE
+ * \brief The page size
  */
 #define PGSIZE 0x1000
 
 /*!
- * \def			PGMASK
- *
- * \brief		The page mask
+ * \def PGMASK
+ * \brief The page mask
  */
 #define PGMASK (PGSIZE-1)
 
 /*!
- * \brief		Initialize the page allocator
- *
- * \param begin		The start address of the memory area
- * \param end		The end address of the memory area
- *
- * \return		1 if the function succeed, 0 otherwise
+ * \brief Initialize the page allocator
+ * \param begin The start address of the memory area
+ * \param end The end address of the memory area
+ * \return 1 if the function succeed, 0 otherwise
  */
 int Pip_InitPaging(uint32_t begin, uint32_t end);
 
 /*!
- * \brief		Allocate a new page
- *
- * \return		The allocated page
+ * \brief Allocate a new page
+ * \return The allocated page
  */
 void* Pip_AllocPage(void);
 
 /*!
- * \brief		Free a page
- *
- * \param		The address of the page to free
+ * \brief Free a page
+ * \param The address of the page to free
  */
 void Pip_FreePage(void* page);
 
-#endif
+#endif /* __PAGING__ */

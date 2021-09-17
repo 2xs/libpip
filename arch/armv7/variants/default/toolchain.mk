@@ -32,18 +32,42 @@
 ###############################################################################
 
 # Toolchain
-
-CC=gcc
-LD=ld
-AS=gcc
-AR=ar
+CC=arm-none-eabi-gcc
+LD=arm-none-eabi-ld
+AS=arm-none-eabi-gcc
+AR=arm-none-eabi-ar
 
 # C flags
-CFLAGS=-c -ffreestanding -nostdlib -Wall -Werror -Wextra -fno-builtin -Wno-unused-parameter -Wno-unused-variable -m32 -fno-caller-saves -fno-stack-protector -fno-pic -no-pie
-CFLAGS+=$(foreach dir, $(INCDIR), -I$(dir))
+CFLAGS   = -c
+CFLAGS  += -march=armv7-a
+CFLAGS  += -marm
+CFLAGS  += -ffreestanding
+CFLAGS  += -nostdlib
+CFLAGS  += -Wall
+CFLAGS  += -Werror
+CFLAGS  += -Wextra
+CFLAGS  += -fno-builtin
+CFLAGS  += -Wno-unused-parameter
+CFLAGS  += -Wno-unused-variable
+CFLAGS  += -fno-caller-saves
+CFLAGS  += -fno-stack-protector
+CFLAGS  += -fno-pic
+CFLAGS  += -no-pie
+CFLAGS  += -O2
+CFLAGS  += $(foreach dir, $(INCDIR), -I$(dir))
 
 # Assembler flags
-ASFLAGS=-m32 -c -I. -I./include -fomit-frame-pointer --freestanding -nostdlib -fno-stack-protector
+ASFLAGS  = -c
+ASFLAGS += -I.
+ASFLAGS += -I./include
+ASFLAGS += -march=armv7-a
+ASFLAGS += -marm
+ASFLAGS += -fomit-frame-pointer
+ASFLAGS += --freestanding
+ASFLAGS += -nostdlib
+ASFLAGS += -fno-stack-protector
+ASFLAGS += -fno-pic
+ASFLAGS += -no-pie
 
 # Archiver flags
 ARFLAGS=rcs

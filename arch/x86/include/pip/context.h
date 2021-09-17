@@ -31,43 +31,20 @@
 /*  knowledge of the CeCILL license and that you accept its terms.             */
 /*******************************************************************************/
 
-#ifndef __VIDT__
-#define __VIDT__
+#ifndef __CONTEXT_X86__
+#define __CONTEXT_X86__
 
 #include <stdint.h>
 
 /*!
- * \def				VIDT_ADDR
- *
- * \brief			The VIDT address
- */
-#define VIDT_VADDR	0xfffff000
-
-/*!
- * \def				PAGE_SIZE
- *
- * \brief			The page size
- */
-#define PAGE_SIZE	4096
-
-/*!
- * \def				VIDT
- *
- * \brief			The VIDT of the current partition
- */
-#define VIDT	((user_ctx_t **) VIDT_VADDR)
-
-/*!
- * \def				__packed
- *
- * \brief			Disable structure padding
+ * \def __packed
+ * \brief Disable structure padding
  */
 #define __packed __attribute__((packed))
 
 /*!
- * \struct			pushad_regs_t
- *
- * \brief			Registers structure for x86
+ * \struct pushad_regs_t
+ * \brief Registers structure for x86
  */
 typedef struct __packed pushad_regs_s
 {
@@ -82,9 +59,8 @@ typedef struct __packed pushad_regs_s
 } pushad_regs_t;
 
 /*!
- * \struct			user_ctx_t
- *
- * \brief			User saved context
+ * \struct user_ctx_t
+ * \brief User saved context
  */
 typedef struct __packed user_ctx_s
 {
@@ -96,50 +72,4 @@ typedef struct __packed user_ctx_s
 	uint32_t nfu[4];    //!< Unused
 } user_ctx_t;
 
-/*!
- * \brief			Context structure allocator
- *
- * \return 			A pointer to a context structure
- */
-extern user_ctx_t *Pip_AllocContext(void);
-
-/*!
- * \deprecated			Here for compatibility reasons. Use Pip_Yield()
- * 				function instead
- *
- * \brief			Dispatch an interrupt to a child partition or
- * 				to its parent
- *
- * \param calleePartDescVAddr	The callee partition descriptor virtual address
- * \param calleeVidtVAddr	The callee VIDT virtual address
- * \param userTargetInterrupt	The user target interrupt number
- */
-extern void Pip_Notify(uint32_t calleePartDescVAddr,
-		       uint32_t calleeVidtVAddr,
-		       uint32_t userTargetInterrupt);
-
-/*!
- * \deprecated			Here for compatibility reasons. Use Pip_Yield()
- * 				function instead
- *
- * \brief			Activate another partition and restore its execution
- * 				context
- */
-extern void Pip_Resume(void);
-
-/*!
- * \brief			Register a handler in the current VIDT
- *
- * \param handlerContext	A pointer to the context structure of the handler
- * \param interruptNumber	The interrupt number to handle
- * \param  handlerAddress	The address of the handler
- * \param stackAddress		The address of the stack
- * \param pipflags		The PIP flags
- */
-extern void Pip_RegisterInterrupt(user_ctx_t *handlerContext,
-				  uint32_t interruptNumber,
-				  uint32_t handlerAddress,
-				  uint32_t stackAddress,
-				  uint32_t pipFlags);
-
-#endif
+#endif /* __CONTEXT_X86__ */

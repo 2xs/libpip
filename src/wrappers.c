@@ -36,15 +36,14 @@
 #include "pip/piptypes.h"
 #include "pip/wrappers.h"
 
-extern uint32_t
-Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination)
+uint32_t Pip_MapPageWrapperFlags(uint32_t source, uint32_t partition,
+	uint32_t destination, uint32_t flags)
 {
-	uint32_t i, count, *page, *current;
+	uint32_t i, r, w, x, count, *page, *current;
 
 	// count can fail if it not a valid partition descriptor
 	// but returns 0
-	if ((count = Pip_CountToMap(partition, destination)) > 0)
-	{
+	if ((count = Pip_CountToMap(partition, destination)) > 0) {
 		// can fail if there is no page left in the allocator
 		page = Pip_AllocPage();
 		if (page == NULL) {
@@ -53,8 +52,7 @@ Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination)
 
 		*(void**) page = (void*) 0;
 
-		for (i = 0; i < count - 1; i++)
-		{
+		for (i = 0; i < count - 1; i++) {
 			current = Pip_AllocPage();
 			if (current == NULL) {
 				return FAIL_ALLOC_PAGE;
@@ -70,14 +68,16 @@ Pip_MapPageWrapper(uint32_t source, uint32_t partition, uint32_t destination)
 		// returns a boolvaddr
 		// least significant bit is whether the call succeeded or not
 		uint32_t prepare_ret_value = Pip_Prepare(partition, destination, (uint32_t) page);
-		if (!prepare_success(prepare_ret_value))
-		{
+		if (!prepare_success(prepare_ret_value)) {
 			return FAIL_PREPARE;
 		}
 	}
 
-	if (!Pip_AddVAddr(source, partition, destination, 1, 1, 1))
-	{
+	r = (flags >> 2) & 1;
+	w = (flags >> 1) & 1;
+	x = flags & 1;
+
+	if (!Pip_AddVAddr(source, partition, destination, r, w, x)) {
 		return FAIL_ADD_VADDR;
 	}
 

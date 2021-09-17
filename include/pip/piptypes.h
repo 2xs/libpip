@@ -48,4 +48,4 @@ static inline uint32_t get_prepare_first_unused_page(boolvaddr prepare_ret_value
 	return prepare_ret_value & ~(1u);
 }
 
-#endif
+#endif /* __PIPTYPES__ */

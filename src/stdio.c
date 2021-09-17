@@ -35,7 +35,7 @@
 
 #include "pip/stdio.h"
 
-extern void puts(const char *s)
+void puts(const char *s)
 {
 	for (unsigned int i = 0; *(s+i) != '\0'; i++)
 	{
@@ -251,7 +251,7 @@ static int print(char **out, const char *format, va_list args)
 		}
 		else
 		{
-			out:
+out:
 			printchar(out, *format);
 			++pc;
 		}
@@ -267,7 +267,7 @@ static int print(char **out, const char *format, va_list args)
 	return pc;
 }
 
-extern int printf(const char *format, ...)
+int printf(const char *format, ...)
 {
 	va_list args;
 
@@ -276,7 +276,7 @@ extern int printf(const char *format, ...)
 	return print(0, format, args);
 }
 
-extern int sprintf(char *str, const char *format, ...)
+int sprintf(char *str, const char *format, ...)
 {
 	va_list args;
 
@@ -285,7 +285,7 @@ extern int sprintf(char *str, const char *format, ...)
 	return print(&str, format, args);
 }
 
-extern int snprintf(char *str, unsigned int size, const char *format, ...)
+int snprintf(char *str, unsigned int size, const char *format, ...)
 {
 	va_list args;
 	(void) size;
